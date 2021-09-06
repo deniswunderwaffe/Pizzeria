@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizzeria.Web", "Pizzeria.Web\Pizzeria.Web.csproj", "{A586B87F-27F3-4D4A-91DF-4C086394AB35}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7F636BFC-FB1D-49B6-A027-513DE38A62F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizzeria.Core", "Pizzeria.Core\Pizzeria.Core.csproj", "{CD577E32-FE89-4AA3-B297-F5EDAFF1E5B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pizzeria.Infrastructure", "Pizzeria.Infrastructure\Pizzeria.Infrastructure.csproj", "{DBFB1E55-F73A-41FB-B785-53753FEADC27}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A586B87F-27F3-4D4A-91DF-4C086394AB35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A586B87F-27F3-4D4A-91DF-4C086394AB35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A586B87F-27F3-4D4A-91DF-4C086394AB35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A586B87F-27F3-4D4A-91DF-4C086394AB35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD577E32-FE89-4AA3-B297-F5EDAFF1E5B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD577E32-FE89-4AA3-B297-F5EDAFF1E5B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD577E32-FE89-4AA3-B297-F5EDAFF1E5B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD577E32-FE89-4AA3-B297-F5EDAFF1E5B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBFB1E55-F73A-41FB-B785-53753FEADC27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBFB1E55-F73A-41FB-B785-53753FEADC27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBFB1E55-F73A-41FB-B785-53753FEADC27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBFB1E55-F73A-41FB-B785-53753FEADC27}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A586B87F-27F3-4D4A-91DF-4C086394AB35} = {7F636BFC-FB1D-49B6-A027-513DE38A62F7}
+		{CD577E32-FE89-4AA3-B297-F5EDAFF1E5B9} = {7F636BFC-FB1D-49B6-A027-513DE38A62F7}
+		{DBFB1E55-F73A-41FB-B785-53753FEADC27} = {7F636BFC-FB1D-49B6-A027-513DE38A62F7}
+	EndGlobalSection
+EndGlobal
