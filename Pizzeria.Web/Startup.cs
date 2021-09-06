@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Pizzeria.Core.Interfaces;
 using Pizzeria.Infrastructure.Data;
 
 namespace Pizzeria.Web
@@ -30,6 +31,10 @@ namespace Pizzeria.Web
         {
              services.AddDbContext<ApplicationDbContext>(options =>
                             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            
+            // services.AddScoped(typeof(IRepository<>),typeof(EfRepository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
