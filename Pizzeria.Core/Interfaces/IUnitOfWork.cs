@@ -7,6 +7,6 @@ namespace Pizzeria.Core.Interfaces
     public interface IUnitOfWork
     {
         IPizzaRepository Pizzas { get; }
-        Task CompleteAsync();
+        bool Complete();
     }
 }

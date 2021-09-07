@@ -27,7 +27,7 @@ namespace Pizzeria.Web.Controllers
             // _pizzaRepository.Add(new Pizza(){Name = "Margarita",Price = 104,Type = "Italian"});
             // _drinkRepository.SaveAll();
             _unitOfWork.Pizzas.Add(new Pizza(){Name = "Margarita",Price = 104,Type = "Italian"});
-            _unitOfWork.CompleteAsync().GetAwaiter().GetResult();
+            _unitOfWork.Complete();
             return Ok(_unitOfWork.Pizzas.GetAllPizzasByType("American"));
         }
     }

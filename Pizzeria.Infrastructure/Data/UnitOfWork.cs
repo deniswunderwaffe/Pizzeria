@@ -18,9 +18,9 @@ namespace Pizzeria.Infrastructure.Data
             Pizzas = new PizzaRepository(_db);           
         }
 
-        public async Task CompleteAsync()
+        public bool Complete()
         {
-            await _db.SaveChangesAsync();
+             return _db.SaveChanges()>=1;
         }
 
         public void Dispose()
