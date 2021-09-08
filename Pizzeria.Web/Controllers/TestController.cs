@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Core.Dtos.PizzaDtos;
 using Pizzeria.Core.Interfaces;
@@ -61,6 +62,58 @@ namespace Pizzeria.Web.Controllers
 
             var readDto = _mapper.Map<PizzaReadDto>(pizzaModel);
             return CreatedAtRoute(nameof(GetPizzaById), new { Id = readDto.Id }, readDto);
+        }
+        
+        [HttpPut("{id}")]
+        public ActionResult UpdatePizza(int id, PizzaUpdateDto updateDto)
+        {
+            var pizzaModel = _unitOfWork.Pizzas.GetByIdWithIngredients(id);
+            if (pizzaModel is null)
+            {
+                return NotFound();
+            }
+            pizzaModel.Ingredients.Clear(); //TODO Возможно есть более элегантный способ очистить коллекцию
+            
+            _mapper.Map(updateDto, pizzaModel);
+            _unitOfWork.Pizzas.Update(pizzaModel);
+            _unitOfWork.Complete();
+            
+            return NoContent();
+        }
+        [HttpPatch("{id}")]
+        public ActionResult PatchPizza(int id,
+            JsonPatchDocument<PizzaUpdateDto> patchDoc)
+        {
+            var pizzaModel = _unitOfWork.Pizzas.GetByIdWithIngredients(id);
+            if (pizzaModel is null)
+            {
+                return NotFound();
+            }
+           
+            var pizzaToPatch = _mapper.Map<PizzaUpdateDto>(pizzaModel);
+            patchDoc.ApplyTo(pizzaToPatch, ModelState);
+            if(!TryValidateModel(pizzaToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+            _mapper.Map(pizzaToPatch, pizzaModel);
+            _unitOfWork.Pizzas.Update(pizzaModel);
+            _unitOfWork.Complete();
+            
+            return NoContent();
+        }
+        [HttpDelete("{id}")]
+        public ActionResult DeletePizza(int id)
+        {
+            var pizzaModel = _unitOfWork.Pizzas.GetById(id);
+            if (pizzaModel is null)
+            {
+                return NotFound();
+            }
+            _unitOfWork.Pizzas.Remove(pizzaModel);
+            _unitOfWork.Complete();
+            
+            return NoContent();
         }
     }
 } 

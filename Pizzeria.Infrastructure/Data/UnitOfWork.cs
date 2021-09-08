@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Pizzeria.Core.Interfaces;
 using Pizzeria.Core.Interfaces.Specific;
-using Pizzeria.Infrastructure.Data.SpecificImplementations;
+using Pizzeria.Infrastructure.Data.RepositoryImplementations.SpecificImplementations;
 
 namespace Pizzeria.Infrastructure.Data
 {

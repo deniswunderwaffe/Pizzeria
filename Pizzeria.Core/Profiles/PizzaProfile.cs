@@ -10,6 +10,8 @@ namespace Pizzeria.Core.Profiles
         {
             CreateMap<Pizza, PizzaReadDto>();
             CreateMap<PizzaCreateDto, Pizza>();
+            CreateMap<PizzaUpdateDto, Pizza>();
+            CreateMap<Pizza, PizzaUpdateDto>();
         }
     }
 }

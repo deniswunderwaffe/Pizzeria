@@ -16,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 using Pizzeria.Core.Interfaces;
 using Pizzeria.Infrastructure.Data;
 using Pizzeria.Web._0Auth;
@@ -41,6 +42,12 @@ namespace Pizzeria.Web
 
             services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            
+            services.AddControllers().AddNewtonsoftJson(s =>
+            {
+                s.SerializerSettings.ContractResolver = new
+                    CamelCasePropertyNamesContractResolver();
+            });
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
