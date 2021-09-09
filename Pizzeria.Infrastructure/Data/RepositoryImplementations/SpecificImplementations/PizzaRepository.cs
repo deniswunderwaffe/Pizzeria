@@ -17,7 +17,7 @@ namespace Pizzeria.Infrastructure.Data.RepositoryImplementations.SpecificImpleme
             return _db.Pizzas.Where(x => x.Type == type);
         }
 
-        public Pizza GetByIdWithIngredients(int id)
+        public Pizza GetPizzaByIdWithIngredients(int id)
         {
             return _db.Pizzas.Where(x => x.Id == id)
                 .Include(x => x.Ingredients)

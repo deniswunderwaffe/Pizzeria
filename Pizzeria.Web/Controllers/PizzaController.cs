@@ -14,35 +14,33 @@ namespace Pizzeria.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TestController : ControllerBase
+    public class PizzaController : ControllerBase
     {
-        // private readonly IRepository<Pizza> _pizzaRepository;
-        // private readonly IRepository<Drink> _drinkRepository;
-        private readonly IUnitOfWork _unitOfWork;
+       // private readonly IUnitOfWork _unitOfWork;
+        private readonly IPizzaService _pizzaService;
         private readonly IMapper _mapper;
 
-        public TestController(IUnitOfWork unitOfWork, IMapper mapper)
+        public PizzaController(/*IUnitOfWork unitOfWork*/ IMapper mapper, IPizzaService pizzaService)
         {
-            _unitOfWork = unitOfWork;
+            //_unitOfWork = unitOfWork;
             _mapper = mapper;
-            //_pizzaRepository = pizzaRepository;
+            _pizzaService = pizzaService;
         }
         // GET
         [HttpGet]
         //[Authorize]
         public ActionResult<IEnumerable<PizzaReadDto>> GetAllPizza()
         {
-            // _drinkRepository.Add(new AlcoholicDrink(){Brand = "Cvint",Concentration = 40,Name = "Divin"});
-            // _pizzaRepository.Add(new Pizza(){Name = "Margarita",Price = 104,Type = "Italian"});
-            // _drinkRepository.SaveAll();
-            var pizzas = _unitOfWork.Pizzas.GetAll();
+            //var pizzas = _unitOfWork.Pizzas.GetAll();
+            var pizzas = _pizzaService.GetAllPizzas();
             var mappedResult = _mapper.Map<IEnumerable<PizzaReadDto>>(pizzas);
             return Ok(mappedResult);
         }
         [HttpGet("{id}",Name = "GetPizzaById")]
         public ActionResult<PizzaReadDto> GetPizzaById(int id)
         {
-            var pizza = _unitOfWork.Pizzas.GetById(id);
+            //var pizza = _unitOfWork.Pizzas.GetById(id);
+            var pizza = _pizzaService.GetPizzaById(id);
             if (pizza is null)
             {
                 return NotFound();
@@ -57,8 +55,10 @@ namespace Pizzeria.Web.Controllers
             //при добавлении существующих ингридиентов учитывает id созданной пиццы, что избавляет 
             //от необходимости передавать его через JSON 
             var pizzaModel = _mapper.Map<Pizza>(createDto);
-            _unitOfWork.Pizzas.Add(pizzaModel);
-            _unitOfWork.Complete();
+            //_unitOfWork.Pizzas.Add(pizzaModel);
+            //_unitOfWork.Complete();
+            _pizzaService.AddPizza(pizzaModel);
+            _pizzaService.SaveAll();
 
             var readDto = _mapper.Map<PizzaReadDto>(pizzaModel);
             return CreatedAtRoute(nameof(GetPizzaById), new { Id = readDto.Id }, readDto);
@@ -67,7 +67,8 @@ namespace Pizzeria.Web.Controllers
         [HttpPut("{id}")]
         public ActionResult UpdatePizza(int id, PizzaUpdateDto updateDto)
         {
-            var pizzaModel = _unitOfWork.Pizzas.GetByIdWithIngredients(id);
+            //var pizzaModel = _unitOfWork.Pizzas.GetPizzaByIdWithIngredients(id);
+            var pizzaModel = _pizzaService.GetPizzaByIdWithIngredients(id);
             if (pizzaModel is null)
             {
                 return NotFound();
@@ -75,16 +76,18 @@ namespace Pizzeria.Web.Controllers
             pizzaModel.Ingredients.Clear(); //TODO Возможно есть более элегантный способ очистить коллекцию
             
             _mapper.Map(updateDto, pizzaModel);
-            _unitOfWork.Pizzas.Update(pizzaModel);
-            _unitOfWork.Complete();
+            // _unitOfWork.Pizzas.Update(pizzaModel);
+            // _unitOfWork.Complete();
+            _pizzaService.UpdatePizza(pizzaModel);
+            _pizzaService.SaveAll();
             
             return NoContent();
         }
         [HttpPatch("{id}")]
-        public ActionResult PatchPizza(int id,
-            JsonPatchDocument<PizzaUpdateDto> patchDoc)
+        public ActionResult PatchPizza(int id, JsonPatchDocument<PizzaUpdateDto> patchDoc)
         {
-            var pizzaModel = _unitOfWork.Pizzas.GetByIdWithIngredients(id);
+            //var pizzaModel = _unitOfWork.Pizzas.GetPizzaByIdWithIngredients(id);
+            var pizzaModel = _pizzaService.GetPizzaByIdWithIngredients(id);
             if (pizzaModel is null)
             {
                 return NotFound();
@@ -97,21 +100,26 @@ namespace Pizzeria.Web.Controllers
                 return ValidationProblem(ModelState);
             }
             _mapper.Map(pizzaToPatch, pizzaModel);
-            _unitOfWork.Pizzas.Update(pizzaModel);
-            _unitOfWork.Complete();
+            // _unitOfWork.Pizzas.Update(pizzaModel);
+            // _unitOfWork.Complete();
+            _pizzaService.UpdatePizza(pizzaModel);
+            _pizzaService.SaveAll();
             
             return NoContent();
         }
         [HttpDelete("{id}")]
         public ActionResult DeletePizza(int id)
         {
-            var pizzaModel = _unitOfWork.Pizzas.GetById(id);
+            //var pizzaModel = _unitOfWork.Pizzas.GetById(id);
+            var pizzaModel = _pizzaService.GetPizzaById(id);
             if (pizzaModel is null)
             {
                 return NotFound();
             }
-            _unitOfWork.Pizzas.Remove(pizzaModel);
-            _unitOfWork.Complete();
+            // _unitOfWork.Pizzas.Remove(pizzaModel);
+            // _unitOfWork.Complete();
+            _pizzaService.RemovePizza(pizzaModel);
+            _pizzaService.SaveAll();
             
             return NoContent();
         }

@@ -7,6 +7,6 @@ namespace Pizzeria.Core.Interfaces.Specific
     public interface IPizzaRepository:IRepository<Pizza>
     {
         IEnumerable<Pizza> GetAllPizzasByType(string type);
-        Pizza GetByIdWithIngredients(int id);
+        Pizza GetPizzaByIdWithIngredients(int id);
     }
 }

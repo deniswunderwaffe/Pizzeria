@@ -8,6 +8,7 @@ namespace Pizzeria.Infrastructure.Data
 {
     public class UnitOfWork:IUnitOfWork,IDisposable
     {
+        //TODO do i need this class?
         private readonly ApplicationDbContext _db;
         
         public IPizzaRepository Pizzas {get; private set;}

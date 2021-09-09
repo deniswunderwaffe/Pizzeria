@@ -18,7 +18,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using Pizzeria.Core.Interfaces;
+using Pizzeria.Core.Interfaces.Specific;
+using Pizzeria.Core.Services;
 using Pizzeria.Infrastructure.Data;
+using Pizzeria.Infrastructure.Data.RepositoryImplementations.SpecificImplementations;
 using Pizzeria.Web._0Auth;
 
 namespace Pizzeria.Web
@@ -63,8 +66,10 @@ namespace Pizzeria.Web
              services.AddDbContext<ApplicationDbContext>(options =>
                             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             
-            // services.AddScoped(typeof(IRepository<>),typeof(EfRepository<>));
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //services.AddScoped(typeof(IRepository<>),typeof(EfRepository<>));
+            services.AddScoped<IPizzaRepository, PizzaRepository>();
+            //services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IPizzaService, PizzaService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -92,6 +97,12 @@ namespace Pizzeria.Web
                 });
             });
         }
+        //TODO Можно убрать зависимость web->infrastructure добавив классы модули, которые будут подключаться здесь 
+        // public void ConfigureContainer(ContainerBuilder builder)
+        // {
+        //     builder.RegisterModule(new DefaultCoreModule());
+        //     builder.RegisterModule(new DefaultInfrastructureModule(_env.EnvironmentName == "Development"));
+        // }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
