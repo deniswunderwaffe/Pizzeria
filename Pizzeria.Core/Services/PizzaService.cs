@@ -15,6 +15,7 @@ namespace Pizzeria.Core.Services
         {
             _repository = repository;
         }
+        
 
         public bool SaveAll()
         {
@@ -64,6 +65,11 @@ namespace Pizzeria.Core.Services
         public Pizza GetPizzaByIdWithIngredients(int id)
         {
             return _repository.GetPizzaByIdWithIngredients(id);
+        }
+
+        public IEnumerable<Pizza> GetAllPizzasWithIngredients()
+        {
+            return _repository.GetAllPizzasWithIngredients();
         }
     }
 }

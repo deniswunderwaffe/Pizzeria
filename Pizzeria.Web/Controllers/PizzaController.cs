@@ -32,7 +32,7 @@ namespace Pizzeria.Web.Controllers
         public ActionResult<IEnumerable<PizzaReadDto>> GetAllPizza()
         {
             //var pizzas = _unitOfWork.Pizzas.GetAll();
-            var pizzas = _pizzaService.GetAllPizzas();
+            var pizzas = _pizzaService.GetAllPizzasWithIngredients();
             var mappedResult = _mapper.Map<IEnumerable<PizzaReadDto>>(pizzas);
             return Ok(mappedResult);
         }

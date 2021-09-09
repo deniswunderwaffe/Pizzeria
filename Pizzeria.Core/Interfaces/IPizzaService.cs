@@ -17,5 +17,6 @@ namespace Pizzeria.Core.Interfaces
         int CountAllPizzas();
         IEnumerable<Pizza> GetAllPizzasByType(string type);
         Pizza GetPizzaByIdWithIngredients(int id);
+        IEnumerable<Pizza> GetAllPizzasWithIngredients();
     }
 }

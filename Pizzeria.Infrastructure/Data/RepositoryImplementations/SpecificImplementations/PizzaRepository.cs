@@ -23,5 +23,10 @@ namespace Pizzeria.Infrastructure.Data.RepositoryImplementations.SpecificImpleme
                 .Include(x => x.Ingredients)
                 .FirstOrDefault();
         }
+
+        public IEnumerable<Pizza> GetAllPizzasWithIngredients()
+        {
+            return _db.Pizzas.Include(x => x.Ingredients).ToList();
+        }
     }
 }

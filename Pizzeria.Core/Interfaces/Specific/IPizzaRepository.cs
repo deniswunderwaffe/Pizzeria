@@ -8,5 +8,7 @@ namespace Pizzeria.Core.Interfaces.Specific
     {
         IEnumerable<Pizza> GetAllPizzasByType(string type);
         Pizza GetPizzaByIdWithIngredients(int id);
+        IEnumerable<Pizza> GetAllPizzasWithIngredients();
+
     }
 }
