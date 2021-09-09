@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Core.Dtos.PizzaDtos;
 using Pizzeria.Core.Exceptions;
+using Pizzeria.Core.HelperClasses;
 using Pizzeria.Core.Interfaces;
 using Pizzeria.Core.Models;
 using Pizzeria.Core.Models.Drinks;
@@ -30,10 +31,10 @@ namespace Pizzeria.Web.Controllers
         // GET
         [HttpGet]
         //[Authorize]
-        public ActionResult<IEnumerable<PizzaReadDto>> GetAllPizza()
+        public ActionResult<IEnumerable<PizzaReadDto>> GetAllPizza([FromQuery] PizzaParameters pizzaParameters)
         {
             //var pizzas = _unitOfWork.Pizzas.GetAll();
-            var pizzas = _pizzaService.GetAllPizzasWithIngredients();
+            var pizzas = _pizzaService.GetAllPizzasWithIngredients(pizzaParameters);
             var mappedResult = _mapper.Map<IEnumerable<PizzaReadDto>>(pizzas);
             //TODO нужно посмотреть про ViewModel и Generic Response
             return Ok(mappedResult);

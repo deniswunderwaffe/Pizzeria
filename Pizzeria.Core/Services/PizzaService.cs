@@ -74,9 +74,9 @@ namespace Pizzeria.Core.Services
             return _repository.GetPizzaByIdWithIngredients(id);
         }
 
-        public IEnumerable<Pizza> GetAllPizzasWithIngredients()
+        public IEnumerable<Pizza> GetAllPizzasWithIngredients(PizzaParameters parameters)
         {
-            return _repository.GetAllPizzasWithIngredients();
+            return _repository.GetAllPizzasWithIngredients(parameters);
         }
     }
 }

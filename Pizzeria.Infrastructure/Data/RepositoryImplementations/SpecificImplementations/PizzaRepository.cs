@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Pizzeria.Core.HelperClasses;
 using Pizzeria.Core.Interfaces.Specific;
 using Pizzeria.Core.Models;
 
@@ -24,9 +25,13 @@ namespace Pizzeria.Infrastructure.Data.RepositoryImplementations.SpecificImpleme
                 .FirstOrDefault();
         }
 
-        public IEnumerable<Pizza> GetAllPizzasWithIngredients()
+        public IEnumerable<Pizza> GetAllPizzasWithIngredients(PizzaParameters parameters)
         {
-            return _db.Pizzas.Include(x => x.Ingredients).ToList();
+            return _db.Pizzas.Include(x => x.Ingredients)
+                .OrderBy(x=>x.Name)
+                .Skip((parameters.PageNumber - 1) * parameters.PageSize)
+                .Take(parameters.PageSize)
+                .ToList();
         }
     }
 }
