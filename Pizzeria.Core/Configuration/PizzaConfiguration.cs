@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Pizzeria.Core.HelperClasses;
 using Pizzeria.Core.Models;
 using Pizzeria.Core.Models.JoinTables;
 
@@ -20,6 +21,10 @@ namespace Pizzeria.Core.Configuration
             builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
             builder.Property(x=>x.Type).IsRequired().HasMaxLength(50);
             builder.Property(x => x.Price).IsRequired();
+            builder.HasCheckConstraint("pizzaType_constraint",
+                $"type IN('{PizzaHelper.PizzaTypes.American.ToString()}'," +
+                $"'{PizzaHelper.PizzaTypes.Italian.ToString()}'," +
+                $"'{PizzaHelper.PizzaTypes.Japanese.ToString()}')");
         }
     }
 }

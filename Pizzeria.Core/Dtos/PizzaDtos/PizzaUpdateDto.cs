@@ -14,6 +14,7 @@ namespace Pizzeria.Core.Dtos.PizzaDtos
         [Required]
         public int Price { get; set; }
 
+        //TODO Работает, но нужно ли?
         public List<PizzaIngredient> PizzaIngredient { get; set; }
     }
 }

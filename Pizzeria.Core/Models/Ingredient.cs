@@ -11,7 +11,7 @@ namespace Pizzeria.Core.Models
         public ICollection<Pizza> Pizzas { get; set; }
         public List<PizzaIngredient> PizzaIngredient { get; set; }
 
-        public int? ProviderId { get; set; } // TODO check if nullable in Db
+        public int? ProviderId { get; set; }
         public Provider Provider { get; set; }
         
     }

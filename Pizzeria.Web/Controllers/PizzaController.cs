@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Core.Dtos.PizzaDtos;
+using Pizzeria.Core.Exceptions;
 using Pizzeria.Core.Interfaces;
 using Pizzeria.Core.Models;
 using Pizzeria.Core.Models.Drinks;
@@ -34,6 +35,7 @@ namespace Pizzeria.Web.Controllers
             //var pizzas = _unitOfWork.Pizzas.GetAll();
             var pizzas = _pizzaService.GetAllPizzasWithIngredients();
             var mappedResult = _mapper.Map<IEnumerable<PizzaReadDto>>(pizzas);
+            //TODO нужно посмотреть про ViewModel и Generic Response
             return Ok(mappedResult);
         }
         [HttpGet("{id}",Name = "GetPizzaById")]
@@ -50,6 +52,7 @@ namespace Pizzeria.Web.Controllers
         }
 
         [HttpPost]
+        [ApiExceptionFilter]
         public ActionResult<PizzaReadDto> CreatePizza(PizzaCreateDto createDto)
         {
             //при добавлении существующих ингридиентов учитывает id созданной пиццы, что избавляет 

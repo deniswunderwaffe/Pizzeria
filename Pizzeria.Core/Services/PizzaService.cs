@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using Pizzeria.Core.Exceptions;
+using Pizzeria.Core.HelperClasses;
 using Pizzeria.Core.Interfaces;
 using Pizzeria.Core.Interfaces.Specific;
 using Pizzeria.Core.Models;
@@ -34,6 +37,10 @@ namespace Pizzeria.Core.Services
 
         public void AddPizza(Pizza entity)
         {
+            if (!PizzaHelper.GetTypes().Contains(entity.Type))
+            {
+                throw new InvalidPizzaTypeException("This type of pizza is not supported");
+            }
             _repository.Add(entity);
         }
 
