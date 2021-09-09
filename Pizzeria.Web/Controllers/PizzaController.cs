@@ -5,9 +5,11 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Pizzeria.Core.Dtos.PizzaDtos;
 using Pizzeria.Core.Exceptions;
 using Pizzeria.Core.HelperClasses;
+using Pizzeria.Core.HelperClasses.Paging;
 using Pizzeria.Core.Interfaces;
 using Pizzeria.Core.Models;
 using Pizzeria.Core.Models.Drinks;
@@ -36,6 +38,16 @@ namespace Pizzeria.Web.Controllers
             //var pizzas = _unitOfWork.Pizzas.GetAll();
             var pizzas = _pizzaService.GetAllPizzasWithIngredients(pizzaParameters);
             var mappedResult = _mapper.Map<IEnumerable<PizzaReadDto>>(pizzas);
+            var metadata = new
+            {
+                pizzas.TotalCount,
+                pizzas.PageSize,
+                pizzas.CurrentPage,
+                pizzas.TotalPages,
+                pizzas.HasNext,
+                pizzas.HasPrevious
+            };
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             //TODO нужно посмотреть про ViewModel и Generic Response
             return Ok(mappedResult);
         }

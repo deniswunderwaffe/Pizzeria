@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Pizzeria.Core.HelperClasses;
+using Pizzeria.Core.HelperClasses.Paging;
 using Pizzeria.Core.Models;
 
 namespace Pizzeria.Core.Interfaces
@@ -18,6 +19,6 @@ namespace Pizzeria.Core.Interfaces
         int CountAllPizzas();
         IEnumerable<Pizza> GetAllPizzasByType(string type);
         Pizza GetPizzaByIdWithIngredients(int id);
-        IEnumerable<Pizza> GetAllPizzasWithIngredients(PizzaParameters parameters);
+        PagedList<Pizza> GetAllPizzasWithIngredients(PizzaParameters parameters);
     }
 }

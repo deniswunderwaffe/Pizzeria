@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Pizzeria.Core.Exceptions;
 using Pizzeria.Core.HelperClasses;
+using Pizzeria.Core.HelperClasses.Paging;
 using Pizzeria.Core.Interfaces;
 using Pizzeria.Core.Interfaces.Specific;
 using Pizzeria.Core.Models;
@@ -74,7 +75,7 @@ namespace Pizzeria.Core.Services
             return _repository.GetPizzaByIdWithIngredients(id);
         }
 
-        public IEnumerable<Pizza> GetAllPizzasWithIngredients(PizzaParameters parameters)
+        public PagedList<Pizza> GetAllPizzasWithIngredients(PizzaParameters parameters)
         {
             return _repository.GetAllPizzasWithIngredients(parameters);
         }
