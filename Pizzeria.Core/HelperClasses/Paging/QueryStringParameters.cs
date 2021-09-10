@@ -7,14 +7,9 @@ namespace Pizzeria.Core.HelperClasses.Paging
         private int _pageSize = 10;
         public int PageSize
         {
-            get
-            {
-                return _pageSize;
-            }
-            set
-            {
-                _pageSize = (value > maxPageSize) ? maxPageSize : value;
-            }
+            get => _pageSize;
+            set => _pageSize = (value > maxPageSize) ? maxPageSize : value;
         }
+        public string OrderBy { get; set; }
     }
 }

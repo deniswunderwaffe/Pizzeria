@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Pizzeria.Core.HelperClassqes.Paging
+namespace Pizzeria.Core.HelperClasses.Paging
 {
     public class PagedList<T>:List<T>
     {

@@ -36,6 +36,10 @@ namespace Pizzeria.Web.Controllers
         public ActionResult<IEnumerable<PizzaReadDto>> GetAllPizza([FromQuery] PizzaParameters pizzaParameters)
         {
             //var pizzas = _unitOfWork.Pizzas.GetAll();
+            if (!pizzaParameters.ValidPriceRange)
+            {
+                return BadRequest("Invalid price range");
+            }
             var pizzas = _pizzaService.GetAllPizzasWithIngredients(pizzaParameters);
             var mappedResult = _mapper.Map<IEnumerable<PizzaReadDto>>(pizzas);
             var metadata = new
@@ -48,7 +52,6 @@ namespace Pizzeria.Web.Controllers
                 pizzas.HasPrevious
             };
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-            //TODO нужно посмотреть про ViewModel и Generic Response
             return Ok(mappedResult);
         }
         [HttpGet("{id}",Name = "GetPizzaById")]
@@ -62,6 +65,7 @@ namespace Pizzeria.Web.Controllers
             }
             var mappedResult = _mapper.Map<PizzaReadDto>(pizza);
             return Ok(mappedResult);
+            //TODO нужно посмотреть про ViewModel и Generic Response
         }
 
         [HttpPost]

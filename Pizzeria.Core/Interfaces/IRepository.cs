@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Pizzeria.Core.Models;
 
@@ -16,5 +17,7 @@ namespace Pizzeria.Core.Interfaces
         void Remove(T entity);
         IEnumerable<T> GetAll();
         int CountAll();
+        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
+
     }
 }

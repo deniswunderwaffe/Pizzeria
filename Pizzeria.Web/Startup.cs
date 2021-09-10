@@ -17,8 +17,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using Pizzeria.Core.HelperClasses.Sorting;
 using Pizzeria.Core.Interfaces;
 using Pizzeria.Core.Interfaces.Specific;
+using Pizzeria.Core.Models;
 using Pizzeria.Core.Services;
 using Pizzeria.Infrastructure.Data;
 using Pizzeria.Infrastructure.Data.RepositoryImplementations.SpecificImplementations;
@@ -69,6 +71,7 @@ namespace Pizzeria.Web
             //services.AddScoped(typeof(IRepository<>),typeof(EfRepository<>));
             services.AddScoped<IPizzaRepository, PizzaRepository>();
             //services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ISortHelper<Pizza>, SortHelper<Pizza>>();
             services.AddScoped<IPizzaService, PizzaService>();
 
             services.AddControllers();

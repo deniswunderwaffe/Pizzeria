@@ -13,11 +13,11 @@ namespace Pizzeria.Infrastructure.Data
         
         public IPizzaRepository Pizzas {get; private set;}
 
-        public UnitOfWork(ApplicationDbContext dbContext)
-        {
-            _db = dbContext;
-            Pizzas = new PizzaRepository(_db);           
-        }
+        // public UnitOfWork(ApplicationDbContext dbContext)
+        // {
+        //     _db = dbContext;
+        //     Pizzas = new PizzaRepository(_db);           
+        // }
 
         public bool Complete()
         {

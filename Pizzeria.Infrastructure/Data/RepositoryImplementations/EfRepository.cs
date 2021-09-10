@@ -32,6 +32,12 @@ namespace Pizzeria.Infrastructure.Data
         {
             return _db.Set<T>().FirstOrDefault(predicate);
         }
+        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
+        {
+            return _db.Set<T>()
+                .Where(expression)
+                .AsNoTracking();
+        }
 
         public void Add(T entity)
         {
