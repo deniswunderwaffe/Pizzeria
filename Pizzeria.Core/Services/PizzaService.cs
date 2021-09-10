@@ -43,16 +43,19 @@ namespace Pizzeria.Core.Services
                 throw new InvalidPizzaTypeException("This type of pizza is not supported");
             }
             _repository.Add(entity);
+            SaveAll();
         }
 
         public void UpdatePizza(Pizza entity)
         {
             _repository.Update(entity);
+            SaveAll();
         }
 
         public void RemovePizza(Pizza entity)
         {
             _repository.Remove(entity);
+            SaveAll();
         }
 
         public IEnumerable<Pizza> GetAllPizzas()

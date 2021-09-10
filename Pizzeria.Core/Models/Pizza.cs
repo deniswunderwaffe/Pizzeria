@@ -8,6 +8,7 @@ namespace Pizzeria.Core.Models
     {
         public string Name { get; set; }
         public string Type { get; set; }
+        //TODO change to double
         public int Price { get; set; }
 
         public ICollection<Ingredient> Ingredients { get; set; }
