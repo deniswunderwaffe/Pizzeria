@@ -50,7 +50,7 @@ namespace Pizzeria.Web.Controllers
                 pizzas.HasNext,
                 pizzas.HasPrevious
             };
-            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            //Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return Ok(mappedResult);
         }
         [HttpGet("{id}",Name = "GetPizzaById")]

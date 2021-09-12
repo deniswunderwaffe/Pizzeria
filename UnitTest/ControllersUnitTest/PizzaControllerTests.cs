@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -55,8 +56,28 @@ namespace UnitTest.ControllersUnitTest
             var result = new PagedList<Pizza>(pizzas, 1, 1, 1);
             return result;
         }
+        
+        //GetAllPizzas------------------------------
         [Fact]
-        public void GetPizzas_ReturnsZeroItems_WhenDBIsEmpty()
+        public void GetAllPizza_Returns405BadRequest_WhenPizzaParametersInvalidPriceRange()
+        {
+            //Arrange 
+            _mockService.Setup(repo =>
+                repo.GetAllPizzasWithIngredients(_pizzaParameters)).Returns(GetPizzas(1));
+
+            _pizzaParameters.MinPrice = 50;
+            _pizzaParameters.MaxPrice = 20;
+            
+            var controller = new PizzaController(_mapper,_mockService.Object);
+
+            //Act
+            var result = controller.GetAllPizza(_pizzaParameters);
+
+            //Assert
+            Assert.IsType<BadRequestObjectResult>(result.Result);   
+        }
+        [Fact]
+        public void GetAllPizza_Returns200OK_WhenDBIsEmpty()
         {
             //Arrange 
             _mockService.Setup(repo =>
@@ -70,9 +91,42 @@ namespace UnitTest.ControllersUnitTest
             //Assert
             Assert.IsType<OkObjectResult>(result.Result);   
         }
-
+        
         [Fact]
-        public void GetCommandByID_Returns404NotFound_WhenNonExistentIDProvided()
+        public void GetAllPizza_Returns200OK_WhenDBHasOnePizza()
+        {
+            //Arrange 
+            _mockService.Setup(repo =>
+                repo.GetAllPizzasWithIngredients(_pizzaParameters)).Returns(GetPizzas(1));
+
+            var controller = new PizzaController(_mapper,_mockService.Object);
+
+            //Act
+            var result = controller.GetAllPizza(_pizzaParameters);
+
+            //Assert
+            Assert.IsType<OkObjectResult>(result.Result);   
+        }
+        [Fact]
+        public void GetAllPizza_ReturnsCorrectType_WhenDBHasOnePizza()
+        {
+            //Arrange 
+            _mockService.Setup(repo =>
+                repo.GetAllPizzasWithIngredients(_pizzaParameters)).Returns(GetPizzas(1));
+
+            var controller = new PizzaController(_mapper,_mockService.Object);
+
+            //Act
+            var result = controller.GetAllPizza(_pizzaParameters);
+
+            //Assert
+            Assert.IsType<ActionResult<IEnumerable<PizzaReadDto>>>(result);   
+        }
+        
+
+        //GetAllPizzaById------------------------------
+        [Fact]
+        public void GetPizzaById_Returns404NotFound_WhenNonExistentIdProvided()
         {
             //Arrange 
             _mockService.Setup(repo =>
@@ -86,7 +140,7 @@ namespace UnitTest.ControllersUnitTest
             Assert.IsType<NotFoundResult>(result.Result);
         }
         [Fact]
-        public void GetCommandByID_Returns200Ok_WhenValidIdProvided()
+        public void GetPizzaById_Returns200Ok_WhenValidIdProvided()
         {
             //Arrange 
             _mockService.Setup(repo =>
@@ -100,7 +154,7 @@ namespace UnitTest.ControllersUnitTest
             Assert.IsType<OkObjectResult>(result.Result);
         }
         [Fact]
-        public void GetCommandByID_ReturnsCorrectResouceType_WhenValidIDProvided()
+        public void GetPizzaById_ReturnsCorrectResourceType_WhenValidIdProvided()
         {
             //Arrange 
             _mockService.Setup(repo =>
@@ -115,6 +169,106 @@ namespace UnitTest.ControllersUnitTest
             Assert.IsType<ActionResult<PizzaReadDto>>(result);
         }
 
+        //CreatePizza
+        [Fact]
+        public void CreatePizza_ReturnsCorrectResourceType_WhenValidObjectSubmitted()
+        {
+            //Arrange 
+            _mockService.Setup(repo =>
+                repo.GetPizzaById(1)).Returns(() => new Pizza());
+            var controller = new PizzaController(_mapper,_mockService.Object);
+
+            //Act
+            var result = controller.CreatePizza(new PizzaCreateDto());
+
+            //Assert
+            Assert.IsType<ActionResult<PizzaReadDto>>(result);
+        }
+
+        [Fact]
+        public void CreatePizza_Returns201Created_WhenValidObjectSubmitted()
+        {
+            //Arrange 
+            _mockService.Setup(repo =>
+                repo.GetPizzaById(1)).Returns(() => new Pizza());
+            var controller = new PizzaController(_mapper,_mockService.Object);
+
+            //Act
+            var result = controller.CreatePizza(new PizzaCreateDto());
+
+            //Assert
+            Assert.IsType<CreatedAtRouteResult>(result.Result);
+        }
         
+        //UpdatePizza------------------------------
+        [Fact]
+        public void UpdatePizza_Returns204NoContent_WhenValidObjectSubmitted()
+        {
+            //Arrange 
+            _mockService.Setup(repo =>
+                repo.GetPizzaByIdWithIngredients(1)).Returns(() => new Pizza()
+            {
+                Ingredients = new List<Ingredient>()
+            });
+            var controller = new PizzaController(_mapper,_mockService.Object);
+            //Act
+            var result = controller.UpdatePizza(1,new PizzaUpdateDto());
+            //Assert
+            Assert.IsType<NoContentResult>(result);
+            
+        }
+        [Fact]
+        public void UpdatePizza_Returns404NotFound_WhenObjectForUpdateNotExisting()
+        {
+            //Arrange 
+            _mockService.Setup(repo =>
+                repo.GetPizzaByIdWithIngredients(0)).Returns(() => null);
+            var controller = new PizzaController(_mapper,_mockService.Object);
+            //Act
+            var result = controller.UpdatePizza(0,new PizzaUpdateDto());
+            //Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
+        //PatchPizza----------------------------
+        [Fact]
+        public void PatchPizza_Returns404NotFound_WhenObjectForUpdateNotExisting()
+        {
+            //Arrange 
+            _mockService.Setup(repo =>
+                repo.GetPizzaByIdWithIngredients(0)).Returns(() => null);
+            var controller = new PizzaController(_mapper,_mockService.Object);
+            //Act
+            var result = controller.PatchPizza(0,new JsonPatchDocument<PizzaUpdateDto>());
+            //Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
+        //DeletePizza
+        [Fact]
+        public void DeletePizza_Returns204NoContent_WhenValidResourceIDSubmitted()
+        {
+            //Arrange
+            _mockService.Setup(repo =>
+                repo.GetPizzaById(1)).Returns(() => new Pizza());
+            var controller = new PizzaController(_mapper,_mockService.Object);
+            //Act
+            var result = controller.DeletePizza(1);
+            //Assert
+            Assert.IsType<NoContentResult>(result);
+        }
+        [Fact]
+        public void DeletePizza_Returns404NotFound_WhenObjectForUpdateNotExisting()
+        {
+            //Arrange
+            _mockService.Setup(repo =>
+                repo.GetPizzaById(1)).Returns(() => null);
+            var controller = new PizzaController(_mapper,_mockService.Object);
+            //Act
+            var result = controller.DeletePizza(1);
+            //Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
+        
+        
+
     }
 }
