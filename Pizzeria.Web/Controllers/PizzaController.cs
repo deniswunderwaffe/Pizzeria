@@ -68,6 +68,7 @@ namespace Pizzeria.Web.Controllers
 
         [HttpPost]
         [ApiExceptionFilter]
+        //[Authorize]
         public ActionResult<PizzaReadDto> CreatePizza(PizzaCreateDto createDto)
         {
             //при добавлении существующих ингридиентов учитывает id созданной пиццы, что избавляет 

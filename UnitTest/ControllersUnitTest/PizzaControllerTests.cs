@@ -22,7 +22,7 @@ namespace UnitTest.ControllersUnitTest
         PizzaProfile _pizzaProfile;
         MapperConfiguration _configuration;
         IMapper _mapper;
-        PizzaParameters _pizzaParameters;
+        
 
         public PizzaControllerTests()
         {
@@ -30,7 +30,6 @@ namespace UnitTest.ControllersUnitTest
             _configuration = new MapperConfiguration(cfg => cfg.AddProfile(_pizzaProfile));
             _mapper = new Mapper(_configuration);
             _mockService = new Mock<IPizzaService>();
-            _pizzaParameters = new PizzaParameters();
         }
         public void Dispose()
         {
@@ -38,7 +37,6 @@ namespace UnitTest.ControllersUnitTest
             _configuration = null;
             _mapper = null;
             _mockService = null;
-            _pizzaParameters = null;
         }
         private PagedList<Pizza> GetPizzas(int num)
         {
@@ -62,16 +60,21 @@ namespace UnitTest.ControllersUnitTest
         public void GetAllPizza_Returns405BadRequest_WhenPizzaParametersInvalidPriceRange()
         {
             //Arrange 
+            var pizzaParameters = new PizzaParameters()
+            {
+                MaxPrice = 50,
+                MinPrice = 100
+            };
             _mockService.Setup(repo =>
-                repo.GetAllPizzasWithIngredients(_pizzaParameters)).Returns(GetPizzas(1));
+                repo.GetAllPizzasWithIngredients(It.Is<PizzaParameters>(x=> x == pizzaParameters)))
+                .Returns(GetPizzas(1));
 
-            _pizzaParameters.MinPrice = 50;
-            _pizzaParameters.MaxPrice = 20;
+            
             
             var controller = new PizzaController(_mapper,_mockService.Object);
 
             //Act
-            var result = controller.GetAllPizza(_pizzaParameters);
+            var result = controller.GetAllPizza(pizzaParameters);
 
             //Assert
             Assert.IsType<BadRequestObjectResult>(result.Result);   
@@ -80,13 +83,14 @@ namespace UnitTest.ControllersUnitTest
         public void GetAllPizza_Returns200OK_WhenDBIsEmpty()
         {
             //Arrange 
+            var pizzaParameters = new PizzaParameters();
             _mockService.Setup(repo =>
-                repo.GetAllPizzasWithIngredients(_pizzaParameters)).Returns(GetPizzas(0));
+                repo.GetAllPizzasWithIngredients(It.Is<PizzaParameters>(x=> x == pizzaParameters))).Returns(GetPizzas(0));
 
             var controller = new PizzaController(_mapper,_mockService.Object);
 
             //Act
-            var result = controller.GetAllPizza(_pizzaParameters);
+            var result = controller.GetAllPizza(pizzaParameters);
 
             //Assert
             Assert.IsType<OkObjectResult>(result.Result);   
@@ -96,13 +100,15 @@ namespace UnitTest.ControllersUnitTest
         public void GetAllPizza_Returns200OK_WhenDBHasOnePizza()
         {
             //Arrange 
+            var pizzaParameters = new PizzaParameters();
             _mockService.Setup(repo =>
-                repo.GetAllPizzasWithIngredients(_pizzaParameters)).Returns(GetPizzas(1));
+                repo.GetAllPizzasWithIngredients(It.Is<PizzaParameters>(x=> x == pizzaParameters))).Returns(GetPizzas(0));
+
 
             var controller = new PizzaController(_mapper,_mockService.Object);
 
             //Act
-            var result = controller.GetAllPizza(_pizzaParameters);
+            var result = controller.GetAllPizza(pizzaParameters);
 
             //Assert
             Assert.IsType<OkObjectResult>(result.Result);   
@@ -111,13 +117,15 @@ namespace UnitTest.ControllersUnitTest
         public void GetAllPizza_ReturnsCorrectType_WhenDBHasOnePizza()
         {
             //Arrange 
+            var pizzaParameters = new PizzaParameters();
             _mockService.Setup(repo =>
-                repo.GetAllPizzasWithIngredients(_pizzaParameters)).Returns(GetPizzas(1));
+                repo.GetAllPizzasWithIngredients(It.Is<PizzaParameters>(x=> x == pizzaParameters))).Returns(GetPizzas(0));
+
 
             var controller = new PizzaController(_mapper,_mockService.Object);
 
             //Act
-            var result = controller.GetAllPizza(_pizzaParameters);
+            var result = controller.GetAllPizza(pizzaParameters);
 
             //Assert
             Assert.IsType<ActionResult<IEnumerable<PizzaReadDto>>>(result);   
@@ -268,7 +276,5 @@ namespace UnitTest.ControllersUnitTest
             Assert.IsType<NotFoundResult>(result);
         }
         
-        
-
     }
 }

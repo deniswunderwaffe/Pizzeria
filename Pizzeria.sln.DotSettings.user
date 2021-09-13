@@ -1,5 +1,14 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\Denis-Pc\AppData\Local\JetBrains\Rider2021.2\resharper-host\temp\Rider\vAny\CoverageData\_Pizzeria.987935755\Snapshot\snapshot.utdcvr</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=13cd44a5_002D2daf_002D431d_002Db5e3_002D93796d0b4142/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="1" IsActive="True" Name="GetPizzas_ReturnsZeroItems_WhenDBIsEmpty" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=13cd44a5_002D2daf_002D431d_002Db5e3_002D93796d0b4142/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="1" Name="GetPizzas_ReturnsZeroItems_WhenDBIsEmpty" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Solution /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5638e6de_002D52ad_002D4d9a_002Da672_002Df0abd2e8c7c8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c289f97e_002De361_002D48d7_002D8cc7_002Dfa56120f36d6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="DeleteVerb_ReturnsNoContent_WhenValidIdProvided" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::2A43A4D8-DD7D-45EC-ADF5-8E01CD71BBCB::net5.0::UnitTest.ControllersUnitTest.PizzaControllerTests.GetAllPizza_Returns405BadRequest_WhenPizzaParametersInvalidPriceRange&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
