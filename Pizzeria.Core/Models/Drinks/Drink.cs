@@ -3,7 +3,7 @@ using Pizzeria.Core.Models.JoinTables;
 
 namespace Pizzeria.Core.Models.Drinks
 {
-    public class Drink:BaseEntity
+    public abstract class Drink:BaseEntity
     {
         public string Brand { get; set; }
         public string Name { get; set; }

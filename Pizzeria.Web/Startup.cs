@@ -68,11 +68,17 @@ namespace Pizzeria.Web
              services.AddDbContext<ApplicationDbContext>(options =>
                             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             
+             
+             //--------------------Services and Repositories------------------//
             //services.AddScoped(typeof(IRepository<>),typeof(EfRepository<>));
             services.AddScoped<IPizzaRepository, PizzaRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
             //services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISortHelper<Pizza>, SortHelper<Pizza>>();
             services.AddScoped<IPizzaService, PizzaService>();
+            services.AddScoped<IOrderService, OrderService>();
+            
+            //--------------------Services and Repositories------------------//
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
