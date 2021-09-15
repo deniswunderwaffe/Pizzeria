@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Pizzeria.Core.Dtos.OrderDtos;
 using Pizzeria.Core.Dtos.PizzaDtos;
+using Pizzeria.Core.Exceptions;
 using Pizzeria.Core.Interfaces;
 using Pizzeria.Core.Models;
 using Pizzeria.Infrastructure.Data;
@@ -44,6 +45,7 @@ namespace Pizzeria.Web.Controllers
             return Ok(mappedResult);
         }
         [HttpPost]
+        [ApiExceptionFilter]
         //[Authorize]
         public ActionResult<OrderReadDto> CreateOrder(OrderCreateDto createDto)
         {
@@ -55,6 +57,7 @@ namespace Pizzeria.Web.Controllers
             return CreatedAtRoute(nameof(GetOrderById), new { Id = readDto.Id }, readDto);
         }
         [HttpPatch("{id}")]
+        [ApiExceptionFilter]
         public ActionResult PatchOrder(int id, JsonPatchDocument<OrderUpdateDto> patchDoc)
         {
             

@@ -17,6 +17,7 @@ namespace Pizzeria.Core.Profiles
             // CreateMap<DrinkCreateDto, Drink>()
             //     .Include<AlcoholicDrinkCreateDto, AlcoholicDrink>();
             CreateMap<AlcoholicDrinkCreateDto, AlcoholicDrink>();
+            CreateMap<SodaDrinkCreateDto, SodaDrink>();
         }
     }
 }

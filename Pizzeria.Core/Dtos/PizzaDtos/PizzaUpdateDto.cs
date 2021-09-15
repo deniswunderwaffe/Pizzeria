@@ -7,14 +7,14 @@ namespace Pizzeria.Core.Dtos.PizzaDtos
     public class PizzaUpdateDto
     {
         [Required]
-        [MaxLength(50)]
+        [StringLength(50, ErrorMessage = "{0} length must be between {2} and {1}.", MinimumLength = 2)]
         public string Name { get; set; }
         [Required]
         public string Type { get; set; }
         [Required]
+        [Range(0, 1000)]
         public int Price { get; set; }
-
-        //TODO Работает, но нужно ли?
+        
         public List<PizzaIngredient> PizzaIngredient { get; set; }
     }
 }

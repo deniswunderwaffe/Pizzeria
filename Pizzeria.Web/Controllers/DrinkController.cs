@@ -39,7 +39,7 @@ namespace Pizzeria.Web.Controllers
             var mappedResult = _mapper.Map<DrinkReadDto>(drink);
             return Ok(mappedResult);
         }
-        [HttpPost]
+        [HttpPost("/api/[controller]/[action]")]
         public ActionResult<AlcoholicDrinkReadDto> CreateAlcoholicDrink(AlcoholicDrinkCreateDto createDto)
         {
             //TODO как должно быть?
@@ -49,7 +49,27 @@ namespace Pizzeria.Web.Controllers
             var readDto = _mapper.Map<AlcoholicDrinkReadDto>(drinkModel);
             return CreatedAtRoute(nameof(GetDrinkById), new { Id = readDto.Id }, readDto);
         }
-        
+        [HttpPost("/api/[controller]/[action]")]
+        public ActionResult<SodaDrinkReadDto> CreateSodaDrink(SodaDrinkCreateDto createDto)
+        {
+            var drinkModel = _mapper.Map<SodaDrink>(createDto);
+            _drinkService.AddDrink(drinkModel);
+            
+            var readDto = _mapper.Map<SodaDrinkReadDto>(drinkModel);
+            return CreatedAtRoute(nameof(GetDrinkById), new { Id = readDto.Id }, readDto);
+        }
+        [HttpDelete("{id}")]
+        public ActionResult DeleteDrink(int id)
+        {
+            var drinkModel = _drinkService.GetDrinkById(id);
+            if (drinkModel is null)
+            {
+                return NotFound();
+            }
+            _drinkService.RemoveDrink(drinkModel);
+
+            return NoContent();
+        }
         
     }
 }
