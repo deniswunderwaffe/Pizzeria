@@ -4,8 +4,9 @@ using Pizzeria.Core.Models;
 
 namespace Pizzeria.Core.Dtos.PizzaDtos
 {
-    public class PizzaReadDto:BaseEntity
+    public class PizzaReadDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
         public int Price { get; set; }

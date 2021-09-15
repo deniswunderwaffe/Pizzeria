@@ -43,6 +43,17 @@ namespace Pizzeria.Web.Controllers
             var mappedResult = _mapper.Map<OrderReadDto>(order);
             return Ok(mappedResult);
         }
+        [HttpPost]
+        //[Authorize]
+        public ActionResult<OrderReadDto> CreateOrder(OrderCreateDto createDto)
+        {
+            var orderModel = _mapper.Map<Order>(createDto);
+            _orderService.AddOrder(orderModel);
+
+            var fullOrder = _orderService.GetOrderByIdIncludingAllDetails(orderModel.Id);
+            var readDto = _mapper.Map<OrderReadDto>(fullOrder);
+            return CreatedAtRoute(nameof(GetOrderById), new { Id = readDto.Id }, readDto);
+        }
         [HttpPatch("{id}")]
         public ActionResult PatchOrder(int id, JsonPatchDocument<OrderUpdateDto> patchDoc)
         {
@@ -63,6 +74,18 @@ namespace Pizzeria.Web.Controllers
             
             _orderService.UpdateOrder(orderFromDb);
             
+            return NoContent();
+        }
+        [HttpDelete("{id}")]
+        public ActionResult DeleteOrder(int id)
+        {
+            var orderModel = _orderService.GetOrderById(id);
+            if (orderModel is null)
+            {
+                return NotFound();
+            }
+            _orderService.RemoveOrder(orderModel);
+
             return NoContent();
         }
     }

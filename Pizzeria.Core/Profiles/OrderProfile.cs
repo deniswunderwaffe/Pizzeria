@@ -8,6 +8,7 @@ namespace Pizzeria.Core.Profiles
     {
         public OrderProfile()
         {
+            CreateMap<OrderCreateDto, Order>();
             CreateMap<Order, OrderReadDto>();
             CreateMap<Order, OrderUpdateDto>();
             CreateMap<OrderUpdateDto, Order>();
