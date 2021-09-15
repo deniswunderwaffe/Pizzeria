@@ -13,6 +13,10 @@ namespace Pizzeria.Core.Profiles
                 .Include<SodaDrink,SodaDrinkReadDto>();
             CreateMap<AlcoholicDrink, AlcoholicDrinkReadDto>();
             CreateMap<SodaDrink, SodaDrinkReadDto>();
+
+            // CreateMap<DrinkCreateDto, Drink>()
+            //     .Include<AlcoholicDrinkCreateDto, AlcoholicDrink>();
+            CreateMap<AlcoholicDrinkCreateDto, AlcoholicDrink>();
         }
     }
 }

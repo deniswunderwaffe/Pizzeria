@@ -59,6 +59,11 @@ namespace Pizzeria.Infrastructure.Data
             return _db.Set<T>().ToList();
         }
 
+        public IQueryable<T> GetAllQueryable()
+        {
+            return _db.Set<T>().AsQueryable();
+        }
+
         public int CountAll()
         {
             return _db.Set<T>().Count();

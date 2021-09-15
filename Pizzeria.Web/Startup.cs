@@ -70,13 +70,15 @@ namespace Pizzeria.Web
             
              
              //--------------------Services and Repositories------------------//
-            //services.AddScoped(typeof(IRepository<>),typeof(EfRepository<>));
+            services.AddScoped(typeof(IRepository<>),typeof(EfRepository<>));
+            services.AddScoped(typeof(ISortHelper<>), typeof(SortHelper<>));
             services.AddScoped<IPizzaRepository, PizzaRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             //services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<ISortHelper<Pizza>, SortHelper<Pizza>>();
+            //services.AddScoped<ISortHelper<Pizza>, SortHelper<Pizza>>();
             services.AddScoped<IPizzaService, PizzaService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IDrinkService, DrinkService>();
             
             //--------------------Services and Repositories------------------//
 
