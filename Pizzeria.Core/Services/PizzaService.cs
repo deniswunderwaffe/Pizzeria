@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Pizzeria.Core.Exceptions;
 using Pizzeria.Core.HelperClasses;
 using Pizzeria.Core.HelperClasses.Paging;
@@ -14,7 +15,7 @@ namespace Pizzeria.Core.Services
     public class PizzaService:IPizzaService
     {
         private readonly IPizzaRepository _repository;
-
+        
         public PizzaService(IPizzaRepository repository)
         {
             _repository = repository;

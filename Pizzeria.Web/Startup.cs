@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,7 @@ using Pizzeria.Core.Models;
 using Pizzeria.Core.Services;
 using Pizzeria.Infrastructure.Data;
 using Pizzeria.Infrastructure.Data.RepositoryImplementations.SpecificImplementations;
+using Pizzeria.Infrastructure.Services;
 using Pizzeria.Web._0Auth;
 
 namespace Pizzeria.Web
@@ -75,7 +77,7 @@ namespace Pizzeria.Web
             services.AddScoped<IPizzaRepository, PizzaRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             //services.AddScoped<IUnitOfWork, UnitOfWork>();
-            //services.AddScoped<ISortHelper<Pizza>, SortHelper<Pizza>>();
+            services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IPizzaService, PizzaService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IDrinkService, DrinkService>();
