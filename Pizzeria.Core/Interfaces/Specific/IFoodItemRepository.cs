@@ -9,9 +9,6 @@ namespace Pizzeria.Core.Interfaces.Specific
     public interface IFoodItemRepository:IRepository<FoodItem>
     {
         IEnumerable<FoodItem> FoodItemsByCategory(CategoryHelper.FoodCategories category);
-
         FoodItem GetFoodItemById(int id);
-        //PagedList<FoodItem> FoodItemsWithIngredients(FoodItemParameters parameters);
-
     }
 }

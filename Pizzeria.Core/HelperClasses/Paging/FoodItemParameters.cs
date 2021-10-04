@@ -9,8 +9,8 @@ namespace Pizzeria.Core.HelperClasses.Paging
             OrderBy = "Id";
         }
         public string Category { get; set; }
-        public int? MinPrice { get; set; } = 1;
-        public int? MaxPrice { get; set; } = 100;
+        public decimal? MinPrice { get; set; } = 0.10m;
+        public decimal? MaxPrice { get; set; } = 999.99m;
         public bool ValidPriceRange => MinPrice < MaxPrice;
     }
 }

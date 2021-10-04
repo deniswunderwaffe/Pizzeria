@@ -6,11 +6,8 @@ namespace Pizzeria.Core.HelperClasses
     {
         public enum FoodCategories
         {
-            [Display(Name = "Pizza")]
             Pizza,
-            [Display(Name = "Snack")]
             Snack,
-            [Display(Name = "Drink")]
             Drink
         }
         

@@ -78,6 +78,9 @@ namespace Pizzeria.Web
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IFoodItemRepository, FoodItemRepository>();
             services.AddScoped<IFoodItemService,FoodItemService>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderService,OrderService>();
+            services.AddScoped<IPromotionalCodeService,PromotionalCodeService>();
             
             
             //--------------------Services and Repositories------------------//

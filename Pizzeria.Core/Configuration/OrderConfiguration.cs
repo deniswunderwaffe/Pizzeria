@@ -23,11 +23,6 @@ namespace Pizzeria.Core.Configuration
             builder.Property(x => x.OrderIdentifier).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
             builder.Property(x => x.DesiredDeliveryDateTime).HasColumnType("datetime");
             builder.Property(x => x.OrderedAt).HasColumnType("datetime").HasDefaultValueSql("getdate()");
-
-
-
-
-
         }
     }
 }

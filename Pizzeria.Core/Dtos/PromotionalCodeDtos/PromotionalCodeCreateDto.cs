@@ -1,9 +1,8 @@
 using System;
-using Pizzeria.Core.Models;
 
-namespace Pizzeria.Core.Models
+namespace Pizzeria.Core.Dtos.PromotionalCodeDtos
 {
-    public class PromotionalCode : BaseEntity
+    public class PromotionalCodeCreateDto
     {
         public string Name { get; set; }
         public string Code { get; set; }
