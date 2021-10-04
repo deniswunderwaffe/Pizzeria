@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Pizzeria.Core.HelperClasses.Paging;
 using Pizzeria.Core.Models;
 
 namespace Pizzeria.Core.Interfaces

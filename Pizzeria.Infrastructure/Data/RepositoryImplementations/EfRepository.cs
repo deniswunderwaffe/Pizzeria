@@ -1,12 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Pizzeria.Core.Interfaces;
 using Pizzeria.Core.Models;
 
-namespace Pizzeria.Infrastructure.Data
+namespace Pizzeria.Infrastructure.Data.RepositoryImplementations
 {
     public class EfRepository<T>:IRepository<T> where T:BaseEntity
     {
@@ -52,11 +51,6 @@ namespace Pizzeria.Infrastructure.Data
         public void Remove(T entity)
         {
             _db.Set<T>().Remove(entity);
-        }
-
-        public IEnumerable<T> GetAll()
-        {
-            return _db.Set<T>().ToList();
         }
 
         public IQueryable<T> GetAllQueryable()

@@ -1,26 +1,29 @@
-
 using System;
 using System.Collections.Generic;
-using Pizzeria.Core.Models.Drinks;
 using Pizzeria.Core.Models.JoinTables;
+
 
 namespace Pizzeria.Core.Models
 {
     public class Order:BaseEntity
     {
-        public string Name { get; set; }
-        public string Phone { get; set; }
-        public string Address { get; set; }
-        public string Email { get; set; }
-        public DateTime OrderedAt { get; set; } = DateTime.Now;
-        public bool Priority { get; set; }
-        public string PaymentOption { get; set; }
-        public int? NumberOfPersons { get; set; }
+        public DateTime OrderedAt { get; set; }
+        public DateTime DesiredDeliveryDateTime { get; set; }
+        public Guid OrderIdentifier { get; set; }
+        public string Note { get; set; }
+        public decimal TotalPrice { get; set; }
+        public bool? IsCash { get; set; }
+
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
         
-        public ICollection<Pizza> Pizzas { get; set; }
-        public ICollection<Drink> Drinks { get; set; }
+        public int? PromotionalCodeId { get; set; }
+        public PromotionalCode PromotionalCode { get; set; }
         
-        public List<OrderPizza> OrderPizzas { get; set; }
-        public List<OrderDrink> OrderDrinks { get; set; }
+        public int OrderStatusId { get; set; }
+        public OrderStatus OrderStatus { get; set; }
+
+        public ICollection<FoodItem> FoodItems { get; set; }
+        public ICollection<OrderFoodItem> OrderFoodItems { get; set; }
     }
 }

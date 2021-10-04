@@ -1,5 +1,5 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\Denis-Pc\AppData\Local\JetBrains\Rider2021.2\resharper-host\temp\Rider\vAny\CoverageData\_Pizzeria.987935755\Snapshot\snapshot.utdcvr</s:String>
+	
 	
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=13cd44a5_002D2daf_002D431d_002Db5e3_002D93796d0b4142/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="1" Name="GetPizzas_ReturnsZeroItems_WhenDBIsEmpty" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Solution /&gt;&#xD;

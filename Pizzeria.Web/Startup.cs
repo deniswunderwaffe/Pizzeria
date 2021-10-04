@@ -21,9 +21,9 @@ using Newtonsoft.Json.Serialization;
 using Pizzeria.Core.HelperClasses.Sorting;
 using Pizzeria.Core.Interfaces;
 using Pizzeria.Core.Interfaces.Specific;
-using Pizzeria.Core.Models;
 using Pizzeria.Core.Services;
 using Pizzeria.Infrastructure.Data;
+using Pizzeria.Infrastructure.Data.RepositoryImplementations;
 using Pizzeria.Infrastructure.Data.RepositoryImplementations.SpecificImplementations;
 using Pizzeria.Infrastructure.Services;
 using Pizzeria.Web._0Auth;
@@ -74,13 +74,11 @@ namespace Pizzeria.Web
              //--------------------Services and Repositories------------------//
             services.AddScoped(typeof(IRepository<>),typeof(EfRepository<>));
             services.AddScoped(typeof(ISortHelper<>), typeof(SortHelper<>));
-            services.AddScoped<IPizzaRepository, PizzaRepository>();
-            services.AddScoped<IOrderRepository, OrderRepository>();
-            //services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddScoped<IEmailSender, EmailSender>();
-            services.AddScoped<IPizzaService, PizzaService>();
-            services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<IDrinkService, DrinkService>();
+            services.AddScoped<IFoodItemRepository, FoodItemRepository>();
+            services.AddScoped<IFoodItemService,FoodItemService>();
+            
             
             //--------------------Services and Repositories------------------//
 
