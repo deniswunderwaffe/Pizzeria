@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Pizzeria.Core.Dtos.OrderDtos;
@@ -57,14 +58,46 @@ namespace Pizzeria.Web.Controllers
         public ActionResult<OrderReadDto> CreateOrder(OrderCreateDto createDto)
         {
             var orderModel = _mapper.Map<Order>(createDto);
-            var promotionalCodeToCheck = createDto.PromotionalCode;
-            //_service.AddOrder(orderModel,promotionalCodeToCheck);
+            //var promotionalCodeToCheck = createDto.PromotionalCode;
+            _service.AddOrder(orderModel);
 
             //TODO на случай если нужно вернуть полный обьект
             //orderModel = _service.GetorderById(orderModel.Id);
             
             var orderReadDto = _mapper.Map<OrderReadDto>(orderModel);
             return CreatedAtRoute(nameof(GetOrderById), new { Id = orderReadDto.Id }, orderReadDto);
+        }
+        [HttpPatch("{id}")]
+        public ActionResult PatchOrder(int id, JsonPatchDocument<OrderUpdateDto> patchDoc)
+        {
+            var orderModel = _service.GetOrderById(id);
+            if (orderModel is null)
+            {
+                return NotFound();
+            }
+            
+            var orderToPatch = _mapper.Map<OrderUpdateDto>(orderModel);
+            patchDoc.ApplyTo(orderToPatch, ModelState);
+            
+            if(!TryValidateModel(orderToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+            
+            _mapper.Map(orderToPatch, orderModel);
+            _service.UpdateOrder(orderModel);
+            return NoContent();
+        }
+        [HttpDelete("{id}")]
+        public ActionResult DeleteOrder(int id)
+        {
+            var orderModel = _service.GetOrderById(id);
+            if (orderModel is null)
+            {
+                return NotFound();
+            }
+            _service.RemoveOrder(orderModel);
+            return NoContent();
         }
     }
 }

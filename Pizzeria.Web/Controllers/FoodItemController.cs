@@ -121,28 +121,5 @@ namespace Pizzeria.Web.Controllers
             _service.RemoveFoodItem(foodItemModel);
             return NoContent();
         }
-
-        // [HttpGet]
-        // //[Authorize]
-        // public ActionResult<IEnumerable<PizzaReadDto>> GetAllPizza([FromQuery] PizzaParameters pizzaParameters)
-        // {
-        //     if (!pizzaParameters.ValidPriceRange)
-        //     {
-        //         return BadRequest("Invalid price range");
-        //     }
-        //     var pizzas = _pizzaService.GetAllPizzasWithIngredients(pizzaParameters);
-        //     var mappedResult = _mapper.Map<IEnumerable<PizzaReadDto>>(pizzas);
-        //     var metadata = new
-        //     {
-        //         pizzas.TotalCount,
-        //         pizzas.PageSize,
-        //         pizzas.CurrentPage,
-        //         pizzas.TotalPages,
-        //         pizzas.HasNext,
-        //         pizzas.HasPrevious
-        //     };
-        //     //Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
-        //     return Ok(mappedResult);
-        // }
     }
 } 
