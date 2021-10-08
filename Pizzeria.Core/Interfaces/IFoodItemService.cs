@@ -17,7 +17,7 @@ namespace Pizzeria.Core.Interfaces
         void RemoveFoodItem(FoodItem entity);
         int CountAllFoodItems();
         IEnumerable<FoodItem> GetAllFoodItemsByCategory(CategoryHelper.FoodCategories category);
-        
+
         PagedList<FoodItem> GetAllFoodPaged(FoodItemParameters parameters);
     }
 }

@@ -8,5 +8,6 @@ namespace Pizzeria.Core.Interfaces
     {
         PromotionalCodeResponse ValidateCode(string codeToValidate);
         void AddPromotionalCode(PromotionalCode promotionalCode);
+        PromotionalCode GetPromotionalCodeById(int id);
     }
 }

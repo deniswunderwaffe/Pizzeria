@@ -4,7 +4,7 @@ using Pizzeria.Core.Models.JoinTables;
 
 namespace Pizzeria.Core.Models
 {
-    public class FoodItem:BaseEntity
+    public class FoodItem : BaseEntity
     {
         public string Name { get; set; }
         public decimal Price { get; set; }

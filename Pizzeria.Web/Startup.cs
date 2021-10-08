@@ -18,15 +18,19 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using Pizzeria.Core.Exceptions;
+using Pizzeria.Core.Exceptions.Extensions;
 using Pizzeria.Core.HelperClasses.Sorting;
 using Pizzeria.Core.Interfaces;
 using Pizzeria.Core.Interfaces.Specific;
+using Pizzeria.Core.Models;
 using Pizzeria.Core.Services;
 using Pizzeria.Infrastructure.Data;
 using Pizzeria.Infrastructure.Data.RepositoryImplementations;
 using Pizzeria.Infrastructure.Data.RepositoryImplementations.SpecificImplementations;
 using Pizzeria.Infrastructure.Services;
 using Pizzeria.Web._0Auth;
+using Pizzeria.Web.DependencyInjectionExtensions;
 
 namespace Pizzeria.Web
 {
@@ -38,22 +42,13 @@ namespace Pizzeria.Web
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("read:messages", policy => policy.Requirements.Add(new HasScopeRequirement("read:messages", Configuration["Auth0:Domain"])));
-            });
-
-            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            
-            services.AddControllers().AddNewtonsoftJson(s =>
-            {
-                s.SerializerSettings.ContractResolver = new
-                    CamelCasePropertyNamesContractResolver();
+                options.AddPolicy("use:everything",
+                    policy => policy.Requirements.Add(new HasScopeRequirement("use:everything",
+                        Configuration["Auth0:Domain"])));
             });
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -67,58 +62,26 @@ namespace Pizzeria.Web
                         NameClaimType = ClaimTypes.NameIdentifier
                     };
                 });
-             services.AddDbContext<ApplicationDbContext>(options =>
-                            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            
-             
-             //--------------------Services and Repositories------------------//
-            services.AddScoped(typeof(IRepository<>),typeof(EfRepository<>));
-            services.AddScoped(typeof(ISortHelper<>), typeof(SortHelper<>));
 
-            services.AddScoped<IEmailSender, EmailSender>();
-            services.AddScoped<IFoodItemRepository, FoodItemRepository>();
-            services.AddScoped<IFoodItemService,FoodItemService>();
-            services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<IOrderService,OrderService>();
-            services.AddScoped<IPromotionalCodeService,PromotionalCodeService>();
-            
-            
-            //--------------------Services and Repositories------------------//
-
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.AddControllers().AddNewtonsoftJson(s =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pizzeria.Web", Version = "v1" });
-                var securitySchema = new OpenApiSecurityScheme
-                {
-                    Description = "Using the Authorization header with the Bearer scheme.",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "bearer",
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    }
-                };
-
-                c.AddSecurityDefinition("Bearer", securitySchema);
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    { securitySchema, new[] { "Bearer" } }
-                });
+                s.SerializerSettings.ContractResolver = new
+                    CamelCasePropertyNamesContractResolver();
             });
-        }
-        //TODO Можно убрать зависимость web->infrastructure добавив классы модули, которые будут подключаться здесь 
-        // public void ConfigureContainer(ContainerBuilder builder)
-        // {
-        //     builder.RegisterModule(new DefaultCoreModule());
-        //     builder.RegisterModule(new DefaultInfrastructureModule(_env.EnvironmentName == "Development"));
-        // }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped(typeof(ISortHelper<>), typeof(SortHelper<>));
+            services.AddScoped<IEmailSender, EmailSender>();
+
+            services.AddRepositoryDependencyGroup();
+            services.AddServiceDependencyGroup();
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddSwaggerExtension();
+        }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -127,11 +90,21 @@ namespace Pizzeria.Web
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pizzeria.Web v1"));
             }
+            else
+            {
+                //app.UseExceptionHandler("/error");
+                //TODO какой подход лучше?
+                app.ConfigureExceptionHandler();
+            }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
             
+            app.UseCors(
+                options => options.WithOrigins("*").AllowAnyMethod().AllowAnyHeader()
+            );
+
             app.UseAuthentication();
             app.UseAuthorization();
 

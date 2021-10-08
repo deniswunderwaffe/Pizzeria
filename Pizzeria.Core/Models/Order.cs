@@ -5,7 +5,7 @@ using Pizzeria.Core.Models.JoinTables;
 
 namespace Pizzeria.Core.Models
 {
-    public class Order:BaseEntity
+    public class Order : BaseEntity
     {
         public DateTime OrderedAt { get; set; }
         public DateTime DesiredDeliveryDateTime { get; set; }
@@ -16,14 +16,17 @@ namespace Pizzeria.Core.Models
 
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
-        
+
         public int? PromotionalCodeId { get; set; }
         public PromotionalCode PromotionalCode { get; set; }
-        
-        public int OrderStatusId { get; set; }
+
+        public int OrderStatusId { get; set; } = 1; //TODO по умолчанию pending узнать как правильно
         public OrderStatus OrderStatus { get; set; }
 
         public ICollection<FoodItem> FoodItems { get; set; }
         public ICollection<OrderFoodItem> OrderFoodItems { get; set; }
+
+        public ICollection<FoodItemExtra> FoodItemExtras { get; set; }
+        public ICollection<OrderFoodItemExtra> OrderFoodItemExtras { get; set; }
     }
 }

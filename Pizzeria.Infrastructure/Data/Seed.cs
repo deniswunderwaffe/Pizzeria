@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +18,8 @@ namespace Pizzeria.Infrastructure.Data
                 Id = 1,
                 Email = "seed@mail.ru",
                 Name = "Denis",
-                Phone = "069353632"
+                Phone = "069353632",
+                Address = "DELIVERY ADDRESS"
             };
             var foodCategoryPizza = new FoodCategory()
             {
@@ -67,15 +67,15 @@ namespace Pizzeria.Infrastructure.Data
                 Name = "Margarita",
                 Description = "Best pizza",
                 FoodCategoryId = 1,
-                Price = 100,
+                Price = 100
             };
             var foodItemExtra = new FoodItemExtra()
             {
                 Id = 1,
-                Name = "Margarita",
-                Description = "Best pizza",
+                Name = "Сырный бортик",
+                Description = "Очень вкусно",
                 FoodItemId = 1,
-                Price = 10,
+                Price = 10
             };
             var foodItems = new List<FoodItem>() { foodItem };
             var order = new Order()
@@ -99,22 +99,15 @@ namespace Pizzeria.Infrastructure.Data
             {
                 Id = 1,
                 FoodItemExtraId = 1,
-                OrderFoodItemId = 1
+                OrderId = 1
             };
-            var deliveryAddress = new DeliveryAddress()
-            {
-                Id = 1,
-                Street = "Test Street",
-                Apartment = 5,
-                CustomerId = 1
-            };
+
             modelBuilder.Entity<Customer>().HasData(customer);
-            modelBuilder.Entity<DeliveryAddress>().HasData(deliveryAddress);
             modelBuilder.Entity<PromotionalCode>().HasData(promotionalCode);
-            modelBuilder.Entity<FoodCategory>().HasData(foodCategoryPizza,foodCategorySnack,foodCategoryDrink);
+            modelBuilder.Entity<FoodCategory>().HasData(foodCategoryPizza, foodCategorySnack, foodCategoryDrink);
             modelBuilder.Entity<FoodItem>().HasData(foodItem);
             modelBuilder.Entity<FoodItemExtra>().HasData(foodItemExtra);
-            modelBuilder.Entity<OrderStatus>().HasData(orderStatusPending,orderStatusConfirmed,orderStatusDelivered);
+            modelBuilder.Entity<OrderStatus>().HasData(orderStatusPending, orderStatusConfirmed, orderStatusDelivered);
             modelBuilder.Entity<Order>().HasData(order);
             modelBuilder.Entity<OrderFoodItem>().HasData(orderFoodItems);
             modelBuilder.Entity<OrderFoodItemExtra>().HasData(orderFoodItemExtras);

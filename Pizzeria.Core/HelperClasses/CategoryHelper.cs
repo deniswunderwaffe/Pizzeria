@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Pizzeria.Core.HelperClasses
 {
     public static class CategoryHelper
@@ -10,6 +8,5 @@ namespace Pizzeria.Core.HelperClasses
             Snack,
             Drink
         }
-        
     }
 }

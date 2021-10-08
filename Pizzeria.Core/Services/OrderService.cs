@@ -10,19 +10,20 @@ using Pizzeria.Core.Models;
 
 namespace Pizzeria.Core.Services
 {
-    public class OrderService:IOrderService
+    public class OrderService : IOrderService
     {
+        private readonly IPromotionalCodeService _promotionalCodeService;
         private readonly IOrderRepository _repository;
         private readonly ISortHelper<Order> _sortHelper;
-        private readonly IPromotionalCodeService _promotionalCodeService;
 
-        public OrderService(IOrderRepository repository, ISortHelper<Order> sortHelper, IPromotionalCodeService promotionalCodeService)
+        public OrderService(IOrderRepository repository, ISortHelper<Order> sortHelper,
+            IPromotionalCodeService promotionalCodeService)
         {
             _repository = repository;
             _sortHelper = sortHelper;
             _promotionalCodeService = promotionalCodeService;
         }
-        
+
         public bool SaveAll()
         {
             return _repository.SaveAll();
@@ -40,13 +41,12 @@ namespace Pizzeria.Core.Services
             return order;
         }
 
-        public void AddOrder(Order entity,string promotionalCodeToCheck)
+        public void AddOrder(Order entity)
         {
-            var validatedCode =  _promotionalCodeService.ValidateCode(promotionalCodeToCheck);
+            //var validatedCode =  _promotionalCodeService.ValidateCode(promotionalCodeToCheck);
             //TODO Как добавлять статус. Запоминать по айди или доставаь по имени
-            entity.CustomerId = 1;
-            entity.OrderStatusId = 1;
-            
+            entity.TotalPrice = 100;
+
             _repository.Add(entity);
             SaveAll();
         }
@@ -72,8 +72,8 @@ namespace Pizzeria.Core.Services
         public PagedList<Order> GetAllOrdersPaged(OrderParameters parameters)
         {
             var orders = _repository.GetAllOrdersIncludingAllDetailsAsQueryable();
-            orders = orders.Where(x => x.TotalPrice >= parameters.MinPrice && x.TotalPrice <=parameters.MaxPrice);
-            
+            orders = orders.Where(x => x.TotalPrice >= parameters.MinPrice && x.TotalPrice <= parameters.MaxPrice);
+
             var sortedOrders = _sortHelper.ApplySort(orders, parameters.OrderBy);
             return PagedList<Order>.ToPagedList(sortedOrders,
                 parameters.PageNumber,

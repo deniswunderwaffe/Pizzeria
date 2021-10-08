@@ -11,7 +11,7 @@ using Pizzeria.Core.Models;
 
 namespace Pizzeria.Core.Services
 {
-    public class FoodItemService:IFoodItemService
+    public class FoodItemService : IFoodItemService
     {
         private readonly IFoodItemRepository _repository;
         private readonly ISortHelper<FoodItem> _sortHelper;
@@ -73,11 +73,9 @@ namespace Pizzeria.Core.Services
         {
             var foodItems = _repository.GetAllQueryable();
             if (!string.IsNullOrEmpty(parameters.Category))
-            {
                 foodItems = foodItems.Where(x => x.FoodCategory.Name == parameters.Category);
-            }
-            foodItems = foodItems.Where(x => x.Price >= parameters.MinPrice && x.Price <=parameters.MaxPrice);
-            
+            foodItems = foodItems.Where(x => x.Price >= parameters.MinPrice && x.Price <= parameters.MaxPrice);
+
             var sortedFoodItems = _sortHelper.ApplySort(foodItems, parameters.OrderBy);
             return PagedList<FoodItem>.ToPagedList(sortedFoodItems,
                 parameters.PageNumber,

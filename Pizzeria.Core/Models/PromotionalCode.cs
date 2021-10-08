@@ -1,5 +1,4 @@
 using System;
-using Pizzeria.Core.Models;
 
 namespace Pizzeria.Core.Models
 {

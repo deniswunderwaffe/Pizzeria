@@ -4,7 +4,7 @@ using AutoMapper;
 
 namespace Pizzeria.Core.Profiles
 {
-    public class FoodItemProfile:Profile
+    public class FoodItemProfile : Profile
     {
         public FoodItemProfile()
         {

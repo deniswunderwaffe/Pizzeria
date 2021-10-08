@@ -12,7 +12,7 @@ namespace Pizzeria.Core.Models
         public int? FoodItemId { get; set; }
         public FoodItem FoodItem { get; set; }
 
-        public ICollection<OrderFoodItem> OrderFoodItems { get; set; }
+        public ICollection<Order> Orders { get; set; }
         public ICollection<OrderFoodItemExtra> OrderFoodItemExtras { get; set; }
     }
 }

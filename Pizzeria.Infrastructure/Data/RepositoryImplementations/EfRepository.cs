@@ -7,7 +7,7 @@ using Pizzeria.Core.Models;
 
 namespace Pizzeria.Infrastructure.Data.RepositoryImplementations
 {
-    public class EfRepository<T>:IRepository<T> where T:BaseEntity
+    public class EfRepository<T> : IRepository<T> where T : BaseEntity
     {
         protected readonly ApplicationDbContext _db;
 
@@ -15,27 +15,25 @@ namespace Pizzeria.Infrastructure.Data.RepositoryImplementations
         {
             _db = db;
         }
+
         public T GetById(int id)
         {
-            return _db.Set<T>().Find(id);
+            var entity = _db.Set<T>().Find(id);
+            return entity;
         }
-
-        // public T GetByIdWithInclude(int id, params Expression<Func<T, object>>[] includeProperties)
-        // {
-        //     var query = IncludeProperties(includeProperties);
-        //     //return _db.Set<T>().Find(id);
-        //     return query.FirstOrDefault(entity => entity.Id == id);
-        // }
 
         public T FirstOrDefault(Expression<Func<T, bool>> predicate)
         {
-            return _db.Set<T>().FirstOrDefault(predicate);
+            var entity = _db.Set<T>().FirstOrDefault(predicate);
+            return entity;
         }
+
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
         {
-            return _db.Set<T>()
+            var queryableEntities = _db.Set<T>()
                 .Where(expression)
                 .AsNoTracking();
+            return queryableEntities;
         }
 
         public void Add(T entity)
@@ -55,25 +53,19 @@ namespace Pizzeria.Infrastructure.Data.RepositoryImplementations
 
         public IQueryable<T> GetAllQueryable()
         {
-            return _db.Set<T>().AsQueryable();
+            var queryableEntities = _db.Set<T>().AsQueryable();
+            return queryableEntities;
         }
 
         public int CountAll()
         {
-            return _db.Set<T>().Count();
+            var count = _db.Set<T>().Count();
+            return count;
         }
+
         public bool SaveAll()
         {
-            return  _db.SaveChanges() >= 0;
+            return _db.SaveChanges() >= 0;
         }
-        // private IQueryable<T> IncludeProperties(params Expression<Func<T, object>>[] includeProperties)
-        // {
-        //     IQueryable<T> entities = _db.Set<T>();
-        //     foreach (var includeProperty in includeProperties)
-        //     {
-        //         entities = entities.Include(includeProperty);
-        //     }
-        //     return entities;
-        // }
     }
 }

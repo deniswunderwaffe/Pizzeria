@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Pizzeria.Web._0Auth
 {
-    public class HasScopeRequirement:IAuthorizationRequirement
+    public class HasScopeRequirement : IAuthorizationRequirement
     {
         public string Issuer { get; }
         public string Scope { get; }

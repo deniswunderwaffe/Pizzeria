@@ -19,14 +19,8 @@ namespace Pizzeria.Core.Services
         {
             var resultOfValidation = _repository.FirstOrDefault(x => x.Code == codeToValidate);
             var response = new PromotionalCodeResponse();
-            if (resultOfValidation == null)
-            {
-                return response;
-            }
-            if (!resultOfValidation.IsActive.GetValueOrDefault())
-            {
-                return response;
-            }
+            if (resultOfValidation == null) return response;
+            if (!resultOfValidation.IsActive.GetValueOrDefault()) return response;
             if (resultOfValidation.ExpirationDate < DateTime.Now || resultOfValidation.MaximumUses < 0)
             {
                 resultOfValidation.IsActive = false;
@@ -35,11 +29,12 @@ namespace Pizzeria.Core.Services
             }
 
             resultOfValidation.MaximumUses = resultOfValidation.MaximumUses - 1;
-            
+
             response.Discount = resultOfValidation.Discount;
             response.Name = resultOfValidation.Name;
-            response.IsValid = true;    
-            
+            response.Id = resultOfValidation.Id;
+            response.IsValid = true;
+
             return response;
         }
 
@@ -47,7 +42,12 @@ namespace Pizzeria.Core.Services
         {
             _repository.Add(promotionalCode);
             _repository.SaveAll();
-            //TODO add validation
+        }
+
+        public PromotionalCode GetPromotionalCodeById(int id)
+        {
+            var promotionalCode = _repository.GetById(id);
+            return promotionalCode;
         }
     }
 }

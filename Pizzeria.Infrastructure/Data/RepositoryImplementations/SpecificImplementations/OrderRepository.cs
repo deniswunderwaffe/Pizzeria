@@ -27,7 +27,7 @@ namespace Pizzeria.Infrastructure.Data.RepositoryImplementations.SpecificImpleme
             var orders = _db.Orders.AsNoTracking()
                 .OrderAllIncludes()
                 .AsQueryable();
-            
+
             return orders;
         }
     }

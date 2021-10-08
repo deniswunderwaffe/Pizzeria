@@ -4,7 +4,7 @@ using Pizzeria.Core.Models;
 
 namespace Pizzeria.Core.Profiles
 {
-    public class OrderProfile:Profile
+    public class OrderProfile : Profile
     {
         public OrderProfile()
         {

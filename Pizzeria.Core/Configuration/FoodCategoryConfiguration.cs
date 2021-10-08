@@ -4,7 +4,7 @@ using Pizzeria.Core.Models;
 
 namespace Pizzeria.Core.Configuration
 {
-    public class FoodCategoryConfiguration:IEntityTypeConfiguration<FoodCategory>
+    public class FoodCategoryConfiguration : IEntityTypeConfiguration<FoodCategory>
     {
         public void Configure(EntityTypeBuilder<FoodCategory> builder)
         {

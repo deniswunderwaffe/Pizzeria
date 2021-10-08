@@ -11,7 +11,7 @@ namespace Pizzeria.Core.Interfaces
         public bool SaveAll();
         Order GetOrderById(int id);
         Order FirstOrDefault(Expression<Func<Order, bool>> predicate);
-        void AddOrder(Order entity,string s);//TODO УБАРТЬ
+        void AddOrder(Order entity); //TODO УБАРТЬ
         void UpdateOrder(Order entity);
         void RemoveOrder(Order entity);
         int CountAllOrders();

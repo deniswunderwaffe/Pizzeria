@@ -26,6 +26,11 @@ namespace Pizzeria.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -57,43 +62,10 @@ namespace Pizzeria.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
+                            Address = "DELIVERY ADDRESS",
                             Email = "seed@mail.ru",
                             Name = "Denis",
                             Phone = "069353632"
-                        });
-                });
-
-            modelBuilder.Entity("Pizzeria.Core.Models.DeliveryAddress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("Apartment")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("DeliveryAddress");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Apartment = 5,
-                            CustomerId = 1,
-                            Street = "Test Street"
                         });
                 });
 
@@ -229,11 +201,13 @@ namespace Pizzeria.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasAlternateKey("OrderId", "FoodItemId");
+
                     b.HasIndex("FoodItemId");
 
-                    b.HasIndex("OrderId");
-
                     b.ToTable("OrderFoodItem");
+
+                    b.HasCheckConstraint("quantity_constraint", "[quantity] > 0");
 
                     b.HasData(
                         new
@@ -255,17 +229,14 @@ namespace Pizzeria.Infrastructure.Migrations
                     b.Property<int>("FoodItemExtraId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderFoodItemId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FoodItemExtraId");
+                    b.HasAlternateKey("OrderId", "FoodItemExtraId");
 
-                    b.HasIndex("OrderFoodItemId");
+                    b.HasIndex("FoodItemExtraId");
 
                     b.ToTable("OrderFoodItemExtra");
 
@@ -274,8 +245,7 @@ namespace Pizzeria.Infrastructure.Migrations
                         {
                             Id = 1,
                             FoodItemExtraId = 1,
-                            OrderFoodItemId = 1,
-                            Quantity = 0
+                            OrderId = 1
                         });
                 });
 
@@ -336,11 +306,11 @@ namespace Pizzeria.Infrastructure.Migrations
                         {
                             Id = 1,
                             CustomerId = 1,
-                            DesiredDeliveryDateTime = new DateTime(2021, 10, 4, 2, 0, 0, 0, DateTimeKind.Local),
+                            DesiredDeliveryDateTime = new DateTime(2021, 10, 5, 2, 0, 0, 0, DateTimeKind.Local),
                             Note = "Second floor",
                             OrderIdentifier = new Guid("00000000-0000-0000-0000-000000000000"),
                             OrderStatusId = 1,
-                            OrderedAt = new DateTime(2021, 10, 4, 10, 15, 7, 716, DateTimeKind.Local).AddTicks(895),
+                            OrderedAt = new DateTime(2021, 10, 5, 12, 56, 2, 252, DateTimeKind.Local).AddTicks(9381),
                             PromotionalCodeId = 1,
                             TotalPrice = 100m
                         });
@@ -414,6 +384,9 @@ namespace Pizzeria.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Code")
+                        .IsUnique();
+
                     b.ToTable("PromotionalCodes");
 
                     b.HasData(
@@ -422,22 +395,11 @@ namespace Pizzeria.Infrastructure.Migrations
                             Id = 1,
                             Code = "MP100",
                             Discount = 5m,
-                            ExpirationDate = new DateTime(2022, 1, 12, 0, 0, 0, 0, DateTimeKind.Local),
+                            ExpirationDate = new DateTime(2022, 1, 13, 0, 0, 0, 0, DateTimeKind.Local),
                             IsActive = true,
                             MaximumUses = 1000,
                             Name = "Discount"
                         });
-                });
-
-            modelBuilder.Entity("Pizzeria.Core.Models.DeliveryAddress", b =>
-                {
-                    b.HasOne("Pizzeria.Core.Models.Customer", "Customer")
-                        .WithMany("DeliveryAddressees")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Pizzeria.Core.Models.FoodItem", b =>
@@ -487,15 +449,15 @@ namespace Pizzeria.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Pizzeria.Core.Models.JoinTables.OrderFoodItem", "OrderFoodItem")
+                    b.HasOne("Pizzeria.Core.Models.Order", "Order")
                         .WithMany("OrderFoodItemExtras")
-                        .HasForeignKey("OrderFoodItemId")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("FoodItemExtra");
 
-                    b.Navigation("OrderFoodItem");
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Pizzeria.Core.Models.Order", b =>
@@ -523,11 +485,6 @@ namespace Pizzeria.Infrastructure.Migrations
                     b.Navigation("PromotionalCode");
                 });
 
-            modelBuilder.Entity("Pizzeria.Core.Models.Customer", b =>
-                {
-                    b.Navigation("DeliveryAddressees");
-                });
-
             modelBuilder.Entity("Pizzeria.Core.Models.FoodItem", b =>
                 {
                     b.Navigation("OrderFoodItems");
@@ -538,13 +495,10 @@ namespace Pizzeria.Infrastructure.Migrations
                     b.Navigation("OrderFoodItemExtras");
                 });
 
-            modelBuilder.Entity("Pizzeria.Core.Models.JoinTables.OrderFoodItem", b =>
-                {
-                    b.Navigation("OrderFoodItemExtras");
-                });
-
             modelBuilder.Entity("Pizzeria.Core.Models.Order", b =>
                 {
+                    b.Navigation("OrderFoodItemExtras");
+
                     b.Navigation("OrderFoodItems");
                 });
 #pragma warning restore 612, 618

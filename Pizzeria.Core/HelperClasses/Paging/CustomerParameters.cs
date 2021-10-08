@@ -1,7 +1,6 @@
 namespace Pizzeria.Core.HelperClasses.Paging
 {
-    public class CustomerParameters
+    public class CustomerParameters : QueryStringParameters
     {
-        
     }
 }

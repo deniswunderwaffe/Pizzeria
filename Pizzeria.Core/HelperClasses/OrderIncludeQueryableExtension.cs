@@ -11,6 +11,8 @@ namespace Pizzeria.Core.HelperClasses
             return source.AsSplitQuery()
                 .Include(x => x.Customer)
                 .Include(x => x.FoodItems)
+                .Include(x => x.OrderFoodItems)
+                .Include(x => x.FoodItemExtras)
                 .Include(x => x.OrderStatus)
                 .Include(x => x.PromotionalCode);
         }

@@ -20,7 +20,6 @@ namespace Pizzeria.Web.Controllers
     [Route("api/[controller]")]
     public class FoodItemController : ControllerBase
     {
-     
         private readonly IFoodItemService _service;
         private readonly IMapper _mapper;
 
@@ -29,13 +28,13 @@ namespace Pizzeria.Web.Controllers
             _mapper = mapper;
             _service = service;
         }
-        
+
         [HttpGet]
         public ActionResult<IEnumerable<FoodItemReadDto>> GetAllFood([FromQuery] FoodItemParameters foodItemParameters)
         {
             var allFood = _service.GetAllFoodPaged(foodItemParameters);
             var allFoodReadDto = _mapper.Map<IEnumerable<FoodItemReadDto>>(allFood);
-            
+
             var metadata = new
             {
                 allFood.TotalCount,
@@ -48,19 +47,16 @@ namespace Pizzeria.Web.Controllers
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
             return Ok(allFoodReadDto);
         }
-        
-        [HttpGet("{id}",Name = "GetFoodItemById")]
+
+        [HttpGet("{id}", Name = "GetFoodItemById")]
         public ActionResult<FoodItemReadDto> GetFoodItemById(int id)
         {
             var foodItem = _service.GetFoodItemById(id);
-            if (foodItem is null)
-            {
-                return NotFound();
-            }
+            if (foodItem is null) return NotFound();
             var foodItemReadDto = _mapper.Map<FoodItemReadDto>(foodItem);
             return Ok(foodItemReadDto);
         }
-        
+
         [HttpPost]
         public ActionResult<FoodItemReadDto> CreateFoodItem(FoodItemCreateDto createDto)
         {
@@ -69,57 +65,45 @@ namespace Pizzeria.Web.Controllers
 
             //TODO на случай если нужно вернуть полный обьект
             //foodItemModel = _service.GetFoodItemById(foodItemModel.Id);
-            
+
             var foodItemReadDto = _mapper.Map<FoodItemReadDto>(foodItemModel);
             return CreatedAtRoute(nameof(GetFoodItemById), new { Id = foodItemReadDto.Id }, foodItemReadDto);
         }
-        
+
         [HttpPut("{id}")]
         public ActionResult UpdateFoodItem(int id, FoodItemUpdateDto updateDto)
         {
             var foodItemModel = _service.GetFoodItemById(id);
-            if (foodItemModel is null)
-            {
-                return NotFound();
-            }
+            if (foodItemModel is null) return NotFound();
             _mapper.Map(updateDto, foodItemModel);
             _service.UpdateFoodItem(foodItemModel);
-            
+
             return NoContent();
         }
-        
+
         [HttpPatch("{id}")]
         public ActionResult PatchFoodItem(int id, JsonPatchDocument<FoodItemUpdateDto> patchDoc)
         {
             var foodItemModel = _service.GetFoodItemById(id);
-            if (foodItemModel is null)
-            {
-                return NotFound();
-            }
-            
+            if (foodItemModel is null) return NotFound();
+
             var foodItemToPatch = _mapper.Map<FoodItemUpdateDto>(foodItemModel);
             patchDoc.ApplyTo(foodItemToPatch, ModelState);
-            
-            if(!TryValidateModel(foodItemToPatch))
-            {
-                return ValidationProblem(ModelState);
-            }
-            
+
+            if (!TryValidateModel(foodItemToPatch)) return ValidationProblem(ModelState);
+
             _mapper.Map(foodItemToPatch, foodItemModel);
             _service.UpdateFoodItem(foodItemModel);
             return NoContent();
         }
-        
+
         [HttpDelete("{id}")]
         public ActionResult DeleteFoodItem(int id)
         {
             var foodItemModel = _service.GetFoodItemById(id);
-            if (foodItemModel is null)
-            {
-                return NotFound();
-            }
+            if (foodItemModel is null) return NotFound();
             _service.RemoveFoodItem(foodItemModel);
             return NoContent();
         }
     }
-} 
+}

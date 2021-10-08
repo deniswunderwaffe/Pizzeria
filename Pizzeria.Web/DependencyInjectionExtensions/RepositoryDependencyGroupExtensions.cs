@@ -1,14 +1,18 @@
+using Microsoft.Extensions.DependencyInjection;
+using Pizzeria.Core.Interfaces;
+using Pizzeria.Core.Interfaces.Specific;
+using Pizzeria.Infrastructure.Data.RepositoryImplementations;
+using Pizzeria.Infrastructure.Data.RepositoryImplementations.SpecificImplementations;
+
 namespace Pizzeria.Web.DependencyInjectionExtensions
 {
-    public class RepositoryDependencyGroup
+    public static class RepositoryDependencyGroupExtensions
     {
-        public static IServiceCollection AddConfig(
-            this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddRepositoryDependencyGroup(this IServiceCollection services)
         {
-            services.Configure<PositionOptions>(
-                config.GetSection(PositionOptions.Position));
-            services.Configure<ColorOptions>(
-                config.GetSection(ColorOptions.Color));
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+            services.AddScoped<IFoodItemRepository, FoodItemRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
 
             return services;
         }

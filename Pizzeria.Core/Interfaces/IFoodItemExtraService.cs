@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-
 using Pizzeria.Core.Models;
 
 
@@ -15,7 +14,7 @@ namespace Pizzeria.Core.Interfaces
         void AddFoodItemExtra(FoodItemExtra entity);
         void UpdateFoodItemExtra(FoodItemExtra entity);
         void RemoveFoodItemExtra(FoodItemExtra entity);
-       // PagedList<FoodItemExtra> GetAllFoodItemExtras(FoodItemExtraParameters parameters);
         int CountAllFoodItemExtras();
+        IEnumerable<FoodItemExtra> GetExtrasForFoodItem(int id);
     }
 }

@@ -4,11 +4,12 @@ using Pizzeria.Core.Models;
 
 namespace Pizzeria.Core.Profiles
 {
-    public class PromotionalCodeProfile:Profile
+    public class PromotionalCodeProfile : Profile
     {
         public PromotionalCodeProfile()
         {
             CreateMap<PromotionalCodeCreateDto, PromotionalCode>();
+            CreateMap<PromotionalCode, PromotionalCodeReadDto>();
         }
     }
 }

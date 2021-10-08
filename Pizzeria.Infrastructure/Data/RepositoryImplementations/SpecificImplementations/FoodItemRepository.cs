@@ -7,7 +7,7 @@ using Pizzeria.Core.Models;
 
 namespace Pizzeria.Infrastructure.Data.RepositoryImplementations.SpecificImplementations
 {
-    public class FoodItemRepository:EfRepository<FoodItem>,IFoodItemRepository
+    public class FoodItemRepository : EfRepository<FoodItem>, IFoodItemRepository
     {
         public FoodItemRepository(ApplicationDbContext db) : base(db)
         {
