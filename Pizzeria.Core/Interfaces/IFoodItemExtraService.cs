@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Pizzeria.Core.Models;
 
-
 namespace Pizzeria.Core.Interfaces
 {
     public interface IFoodItemExtraService

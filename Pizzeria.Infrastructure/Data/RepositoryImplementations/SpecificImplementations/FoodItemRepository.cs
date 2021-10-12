@@ -16,8 +16,8 @@ namespace Pizzeria.Infrastructure.Data.RepositoryImplementations.SpecificImpleme
         public IEnumerable<FoodItem> FoodItemsByCategory(CategoryHelper.FoodCategories category)
         {
             return _db.FoodItems.AsNoTracking()
-			.Include(x => x.FoodCategory)
-			.Where(x => x.FoodCategory.Name == category.ToString());
+                .Include(x => x.FoodCategory)
+                .Where(x => x.FoodCategory.Name == category.ToString());
         }
 
         public FoodItem GetFoodItemById(int id)

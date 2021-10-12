@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -15,8 +14,8 @@ namespace Pizzeria.Web.Controllers
     [Route("api/[controller]")]
     public class CustomerController : ControllerBase
     {
-        private readonly ICustomerService _service;
         private readonly IMapper _mapper;
+        private readonly ICustomerService _service;
 
         public CustomerController(IMapper mapper, ICustomerService service)
         {
@@ -25,7 +24,6 @@ namespace Pizzeria.Web.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
         public ActionResult<IEnumerable<CustomerReadDto>> GetAllCustomers(
             [FromQuery] CustomerParameters customerParameters)
         {
@@ -45,12 +43,23 @@ namespace Pizzeria.Web.Controllers
             return Ok(allCustomersReadDto);
         }
 
-        //[Authorize("use:everything")]
         [HttpGet("{id}", Name = "GetCustomerById")]
         public ActionResult<CustomerReadDto> GetCustomerById(int id)
         {
             var customer = _service.GetCustomerById(id);
-            if (customer is null) return NotFound();
+            if (customer is null)
+                return NotFound();
+            var customerReadDto = _mapper.Map<CustomerReadDto>(customer);
+            return Ok(customerReadDto);
+        }
+
+        [HttpGet]
+        [Route("phone")]
+        public ActionResult<CustomerReadDto> GetCustomerByPhone([FromQuery] string phone)
+        {
+            var customer = _service.GetCustomerByPhone(phone);
+            if (customer is null)
+                return NotFound();
             var customerReadDto = _mapper.Map<CustomerReadDto>(customer);
             return Ok(customerReadDto);
         }
@@ -62,19 +71,21 @@ namespace Pizzeria.Web.Controllers
             _service.AddCustomer(customerModel);
 
             var customerReadDto = _mapper.Map<CustomerReadDto>(customerModel);
-            return CreatedAtRoute(nameof(GetCustomerById), new { Id = customerReadDto.Id }, customerReadDto);
+            return CreatedAtRoute(nameof(GetCustomerById), new { customerReadDto.Id }, customerReadDto);
         }
 
         [HttpPatch("{id}")]
         public ActionResult PatchCustomer(int id, JsonPatchDocument<CustomerUpdateDto> patchDoc)
         {
             var customerModel = _service.GetCustomerById(id);
-            if (customerModel is null) return NotFound();
+            if (customerModel is null)
+                return NotFound();
 
             var customerToPatch = _mapper.Map<CustomerUpdateDto>(customerModel);
             patchDoc.ApplyTo(customerToPatch, ModelState);
 
-            if (!TryValidateModel(customerToPatch)) return ValidationProblem(ModelState);
+            if (!TryValidateModel(customerToPatch))
+                return ValidationProblem(ModelState);
 
             _mapper.Map(customerToPatch, customerModel);
             _service.UpdateCustomer(customerModel);
@@ -85,7 +96,8 @@ namespace Pizzeria.Web.Controllers
         public ActionResult DeleteCustomer(int id)
         {
             var customerModel = _service.GetCustomerById(id);
-            if (customerModel is null) return NotFound();
+            if (customerModel is null)
+                return NotFound();
             _service.RemoveCustomer(customerModel);
             return NoContent();
         }

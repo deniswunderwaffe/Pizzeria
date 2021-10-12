@@ -1,6 +1,5 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Pizzeria.Core.Dtos.OrderDtos;
 using Pizzeria.Core.Dtos.PromotionalCodeDtos;
 using Pizzeria.Core.HelperClasses;
 using Pizzeria.Core.Interfaces;
@@ -12,8 +11,8 @@ namespace Pizzeria.Web.Controllers
     [Route("api/[controller]")]
     public class PromotionalCodeController : ControllerBase
     {
-        private readonly IPromotionalCodeService _promotionalCodeService;
         private readonly IMapper _mapper;
+        private readonly IPromotionalCodeService _promotionalCodeService;
 
         public PromotionalCodeController(IPromotionalCodeService promotionalCodeService, IMapper mapper)
         {
@@ -38,7 +37,7 @@ namespace Pizzeria.Web.Controllers
             _promotionalCodeService.AddPromotionalCode(codeModel);
 
             var promotionalCodeReadDto = _mapper.Map<PromotionalCodeReadDto>(codeModel);
-            return CreatedAtRoute(nameof(GetPromotionalCodeById), new { Id = promotionalCodeReadDto.Id },
+            return CreatedAtRoute(nameof(GetPromotionalCodeById), new { promotionalCodeReadDto.Id },
                 promotionalCodeReadDto);
         }
 

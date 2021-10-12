@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Pizzeria.Core.HelperClasses;
-using Pizzeria.Core.HelperClasses.Paging;
 using Pizzeria.Core.Models;
 
 namespace Pizzeria.Core.Interfaces.Specific

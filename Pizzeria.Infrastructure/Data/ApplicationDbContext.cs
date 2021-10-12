@@ -1,11 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using Pizzeria.Core.Models;
 
-
 namespace Pizzeria.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
     {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+        }
+
+        public ApplicationDbContext()
+        {
+        }
+
         public DbSet<Customer> Customers { get; set; }
         public DbSet<FoodCategory> FoodCategories { get; set; }
         public DbSet<FoodItem> FoodItems { get; set; }
@@ -19,14 +26,6 @@ namespace Pizzeria.Infrastructure.Data
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(BaseEntity).Assembly);
 
             modelBuilder.SeedData();
-        }
-
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        {
-        }
-
-        public ApplicationDbContext()
-        {
         }
     }
 }

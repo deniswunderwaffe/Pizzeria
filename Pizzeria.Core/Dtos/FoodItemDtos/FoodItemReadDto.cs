@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using Pizzeria.Core.Dtos.OrderDtos;
 using Pizzeria.Core.Models;
-using Pizzeria.Core.Models.JoinTables;
 
 namespace Pizzeria.Core.Dtos.FoodItemDtos
 {

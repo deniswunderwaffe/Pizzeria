@@ -3,8 +3,8 @@ namespace Pizzeria.Core.HelperClasses.Paging
     public class QueryStringParameters
     {
         private const int MaxPageSize = 25;
-        public int PageNumber { get; set; } = 1;
         private int _pageSize = 10;
+        public int PageNumber { get; set; } = 1;
 
         public int PageSize
         {

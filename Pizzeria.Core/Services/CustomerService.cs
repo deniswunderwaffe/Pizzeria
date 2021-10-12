@@ -26,6 +26,12 @@ namespace Pizzeria.Core.Services
             return customer;
         }
 
+        public Customer GetCustomerByPhone(string phone)
+        {
+            var customer = _repository.FirstOrDefault(x => x.Phone == phone);
+            return customer;
+        }
+
         public Customer FirstOrDefault(Expression<Func<Customer, bool>> predicate)
         {
             var customer = _repository.FirstOrDefault(predicate);

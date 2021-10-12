@@ -1,5 +1,3 @@
-using Pizzeria.Core.Models;
-
 namespace Pizzeria.Core.HelperClasses.Paging
 {
     public class FoodItemParameters : QueryStringParameters

@@ -6,14 +6,13 @@ using Pizzeria.Core.HelperClasses;
 using Pizzeria.Core.Models;
 using Pizzeria.Core.Models.JoinTables;
 
-
 namespace Pizzeria.Infrastructure.Data
 {
     public static class Seed
     {
         public static void SeedData(this ModelBuilder modelBuilder)
         {
-            var customer = new Customer()
+            var customer = new Customer
             {
                 Id = 1,
                 Email = "seed@mail.ru",
@@ -21,37 +20,37 @@ namespace Pizzeria.Infrastructure.Data
                 Phone = "069353632",
                 Address = "DELIVERY ADDRESS"
             };
-            var foodCategoryPizza = new FoodCategory()
+            var foodCategoryPizza = new FoodCategory
             {
                 Id = 1,
                 Name = CategoryHelper.FoodCategories.Pizza.ToString()
             };
-            var foodCategoryDrink = new FoodCategory()
+            var foodCategoryDrink = new FoodCategory
             {
                 Id = 2,
                 Name = CategoryHelper.FoodCategories.Drink.ToString()
             };
-            var foodCategorySnack = new FoodCategory()
+            var foodCategorySnack = new FoodCategory
             {
                 Id = 3,
                 Name = CategoryHelper.FoodCategories.Snack.ToString()
             };
-            var orderStatusPending = new OrderStatus()
+            var orderStatusPending = new OrderStatus
             {
                 Id = 1,
                 Name = "Pending"
             };
-            var orderStatusConfirmed = new OrderStatus()
+            var orderStatusConfirmed = new OrderStatus
             {
                 Id = 2,
                 Name = "Confirmed"
             };
-            var orderStatusDelivered = new OrderStatus()
+            var orderStatusDelivered = new OrderStatus
             {
                 Id = 3,
                 Name = "Delivered"
             };
-            var promotionalCode = new PromotionalCode()
+            var promotionalCode = new PromotionalCode
             {
                 Id = 1,
                 Code = "MP100",
@@ -61,15 +60,33 @@ namespace Pizzeria.Infrastructure.Data
                 Name = "Discount",
                 ExpirationDate = DateTime.Today + TimeSpan.FromDays(100)
             };
-            var foodItem = new FoodItem()
+            var foodItem = new FoodItem
             {
                 Id = 1,
                 Name = "Margarita",
-                Description = "Best pizza",
+                Description =
+                    "Pizza Margherita (more commonly known in English as Margherita pizza) is a typical Neapolitan pizza, made with San Marzano tomatoes, mozzarella cheese, fresh basil, salt, and extra-virgin olive oil. ",
                 FoodCategoryId = 1,
-                Price = 100
+                Price = 50
             };
-            var foodItemExtra = new FoodItemExtra()
+            var foodItem2 = new FoodItem
+            {
+                Id = 2,
+                Name = "Coca-Cola",
+                Description = "Coca-Cola, or Coke, is a carbonated soft drink manufactured by The Coca-Cola Company. ",
+                FoodCategoryId = 2,
+                Price = 5
+            };
+            var foodItem3 = new FoodItem
+            {
+                Id = 3,
+                Name = "Chips",
+                Description =
+                    "Potato chips form a large part of the snack food and convenience food market in Western countries.",
+                FoodCategoryId = 3,
+                Price = 5
+            };
+            var foodItemExtra = new FoodItemExtra
             {
                 Id = 1,
                 Name = "Сырный бортик",
@@ -77,8 +94,8 @@ namespace Pizzeria.Infrastructure.Data
                 FoodItemId = 1,
                 Price = 10
             };
-            var foodItems = new List<FoodItem>() { foodItem };
-            var order = new Order()
+            var foodItems = new List<FoodItem> { foodItem };
+            var order = new Order
             {
                 Id = 1,
                 CustomerId = 1,
@@ -89,13 +106,14 @@ namespace Pizzeria.Infrastructure.Data
                 TotalPrice = foodItems.Sum(x => x.Price),
                 PromotionalCodeId = 1
             };
-            var orderFoodItems = new OrderFoodItem()
+            var orderFoodItems = new OrderFoodItem
             {
                 Id = 1,
                 FoodItemId = 1,
-                OrderId = 1
+                OrderId = 1,
+                Quantity = 1
             };
-            var orderFoodItemExtras = new OrderFoodItemExtra()
+            var orderFoodItemExtras = new OrderFoodItemExtra
             {
                 Id = 1,
                 FoodItemExtraId = 1,

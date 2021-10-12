@@ -31,7 +31,7 @@ namespace Pizzeria.Core.Exceptions.Extensions
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            await context.Response.WriteAsync(new ErrorDetails()
+            await context.Response.WriteAsync(new ErrorDetails
             {
                 StatusCode = context.Response.StatusCode,
                 Message = "Aa error occured on the server"

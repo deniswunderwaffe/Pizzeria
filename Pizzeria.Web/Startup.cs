@@ -1,33 +1,19 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
-using Pizzeria.Core.Exceptions;
 using Pizzeria.Core.Exceptions.Extensions;
 using Pizzeria.Core.HelperClasses.Sorting;
-using Pizzeria.Core.Interfaces;
-using Pizzeria.Core.Interfaces.Specific;
-using Pizzeria.Core.Models;
-using Pizzeria.Core.Services;
 using Pizzeria.Infrastructure.Data;
-using Pizzeria.Infrastructure.Data.RepositoryImplementations;
-using Pizzeria.Infrastructure.Data.RepositoryImplementations.SpecificImplementations;
 using Pizzeria.Infrastructure.Services;
 using Pizzeria.Web._0Auth;
 using Pizzeria.Web.DependencyInjectionExtensions;
@@ -42,6 +28,7 @@ namespace Pizzeria.Web
         }
 
         public IConfiguration Configuration { get; }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthorization(options =>
@@ -82,6 +69,7 @@ namespace Pizzeria.Web
 
             services.AddSwaggerExtension();
         }
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -92,15 +80,15 @@ namespace Pizzeria.Web
             }
             else
             {
-                //app.UseExceptionHandler("/error");
-                //TODO какой подход лучше?
+                // Or app.UseExceptionHandler("/error");
                 app.ConfigureExceptionHandler();
             }
+
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            
+
             app.UseCors(
                 options => options.WithOrigins("*").AllowAnyMethod().AllowAnyHeader()
             );

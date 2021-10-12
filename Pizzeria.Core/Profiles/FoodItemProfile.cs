@@ -1,6 +1,6 @@
+using AutoMapper;
 using Pizzeria.Core.Dtos.FoodItemDtos;
 using Pizzeria.Core.Models;
-using AutoMapper;
 
 namespace Pizzeria.Core.Profiles
 {

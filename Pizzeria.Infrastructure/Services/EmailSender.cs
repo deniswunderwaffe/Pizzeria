@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Mailjet.Client;
 using Mailjet.Client.Resources;

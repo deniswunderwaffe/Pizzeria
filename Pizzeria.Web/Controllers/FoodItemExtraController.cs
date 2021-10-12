@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Pizzeria.Core.Dtos.FoodItemDtos;
 using Pizzeria.Core.Interfaces;
 using Pizzeria.Core.Models;
@@ -13,8 +12,8 @@ namespace Pizzeria.Web.Controllers
     [Route("api/[controller]")]
     public class FoodItemExtraController : ControllerBase
     {
-        private readonly IFoodItemExtraService _service;
         private readonly IMapper _mapper;
+        private readonly IFoodItemExtraService _service;
 
         public FoodItemExtraController(IMapper mapper, IFoodItemExtraService service)
         {
@@ -48,7 +47,7 @@ namespace Pizzeria.Web.Controllers
             _service.AddFoodItemExtra(foodItemExtraModel);
 
             var foodItemExtraReadDto = _mapper.Map<FoodItemExtraReadDto>(foodItemExtraModel);
-            return CreatedAtRoute(nameof(GetFoodItemExtraById), new { Id = foodItemExtraReadDto.Id },
+            return CreatedAtRoute(nameof(GetFoodItemExtraById), new { foodItemExtraReadDto.Id },
                 foodItemExtraReadDto);
         }
 

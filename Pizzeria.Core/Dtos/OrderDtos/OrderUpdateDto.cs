@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Pizzeria.Core.Models;
 using Pizzeria.Core.Models.JoinTables;
 
 namespace Pizzeria.Core.Dtos.OrderDtos

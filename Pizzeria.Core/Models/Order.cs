@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Pizzeria.Core.Models.JoinTables;
 
-
 namespace Pizzeria.Core.Models
 {
     public class Order : BaseEntity
@@ -20,7 +19,7 @@ namespace Pizzeria.Core.Models
         public int? PromotionalCodeId { get; set; }
         public PromotionalCode PromotionalCode { get; set; }
 
-        public int OrderStatusId { get; set; } = 1; //TODO по умолчанию pending узнать как правильно
+        public int OrderStatusId { get; set; } = 1;
         public OrderStatus OrderStatus { get; set; }
 
         public ICollection<FoodItem> FoodItems { get; set; }

@@ -14,8 +14,8 @@ namespace Pizzeria.Web.Controllers
     [Route("api/[controller]")]
     public class OrderController : ControllerBase
     {
-        private readonly IOrderService _service;
         private readonly IMapper _mapper;
+        private readonly IOrderService _service;
 
         public OrderController(IMapper mapper, IOrderService service)
         {
@@ -56,11 +56,11 @@ namespace Pizzeria.Web.Controllers
         {
             var orderModel = _mapper.Map<Order>(createDto);
             _service.AddOrder(orderModel);
-            
+
             orderModel = _service.GetOrderById(orderModel.Id);
 
             var orderReadDto = _mapper.Map<OrderReadDto>(orderModel);
-            return CreatedAtRoute(nameof(GetOrderById), new { Id = orderReadDto.Id }, orderReadDto);
+            return CreatedAtRoute(nameof(GetOrderById), new { orderReadDto.Id }, orderReadDto);
         }
 
         [HttpPatch("{id}")]

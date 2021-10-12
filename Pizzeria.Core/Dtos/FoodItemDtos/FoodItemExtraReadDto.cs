@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using Pizzeria.Core.Models.JoinTables;
-
 namespace Pizzeria.Core.Dtos.FoodItemDtos
 {
     public class FoodItemExtraReadDto
