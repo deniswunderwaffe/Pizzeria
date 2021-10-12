@@ -90,7 +90,10 @@ namespace Pizzeria.Web
             app.UseRouting();
 
             app.UseCors(
-                options => options.WithOrigins("*").AllowAnyMethod().AllowAnyHeader()
+                options => options.WithOrigins("*").AllowAnyMethod().			AllowAnyHeader()
+				.AllowAnyOrigin()
+          
+               .WithExposedHeaders("x-pagination")
             );
 
             app.UseAuthentication();

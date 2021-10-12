@@ -14,7 +14,7 @@ namespace Pizzeria.Infrastructure.Data.RepositoryImplementations.SpecificImpleme
 
         public Order GetOrderByIdIncludingAllDetails(int id)
         {
-            var order = _db.Orders.AsNoTracking()
+            var order = _db.Orders
                 .OrderAllIncludes()
                 .FirstOrDefault(x => x.Id == id);
 
