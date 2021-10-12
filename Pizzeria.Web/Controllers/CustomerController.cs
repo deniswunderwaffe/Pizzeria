@@ -25,7 +25,7 @@ namespace Pizzeria.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public ActionResult<IEnumerable<CustomerReadDto>> GetAllCustomers(
             [FromQuery] CustomerParameters customerParameters)
         {
@@ -45,7 +45,7 @@ namespace Pizzeria.Web.Controllers
             return Ok(allCustomersReadDto);
         }
 
-        [Authorize("use:everything")]
+        //[Authorize("use:everything")]
         [HttpGet("{id}", Name = "GetCustomerById")]
         public ActionResult<CustomerReadDto> GetCustomerById(int id)
         {

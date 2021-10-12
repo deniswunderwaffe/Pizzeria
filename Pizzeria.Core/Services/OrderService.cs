@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using Pizzeria.Core.HelperClasses.Paging;
 using Pizzeria.Core.HelperClasses.Sorting;
 using Pizzeria.Core.Interfaces;
@@ -43,10 +44,6 @@ namespace Pizzeria.Core.Services
 
         public void AddOrder(Order entity)
         {
-            //var validatedCode =  _promotionalCodeService.ValidateCode(promotionalCodeToCheck);
-            //TODO Как добавлять статус. Запоминать по айди или доставаь по имени
-            entity.TotalPrice = 100;
-
             _repository.Add(entity);
             SaveAll();
         }

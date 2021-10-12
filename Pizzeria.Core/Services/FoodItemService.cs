@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using Pizzeria.Core.HelperClasses;
 using Pizzeria.Core.HelperClasses.Paging;
 using Pizzeria.Core.HelperClasses.Sorting;
@@ -71,15 +72,22 @@ namespace Pizzeria.Core.Services
 
         public PagedList<FoodItem> GetAllFoodPaged(FoodItemParameters parameters)
         {
-            var foodItems = _repository.GetAllQueryable();
+            var foodItems = _repository.GetAllQueryable()
+                .Include(x => x.FoodCategory)
+                .AsNoTracking();
+
             if (!string.IsNullOrEmpty(parameters.Category))
                 foodItems = foodItems.Where(x => x.FoodCategory.Name == parameters.Category);
             foodItems = foodItems.Where(x => x.Price >= parameters.MinPrice && x.Price <= parameters.MaxPrice);
 
+
             var sortedFoodItems = _sortHelper.ApplySort(foodItems, parameters.OrderBy);
-            return PagedList<FoodItem>.ToPagedList(sortedFoodItems,
+
+            var pagedList = PagedList<FoodItem>.ToPagedList(sortedFoodItems,
                 parameters.PageNumber,
                 parameters.PageSize);
+
+            return pagedList;
         }
     }
 }

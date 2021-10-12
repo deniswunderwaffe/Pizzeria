@@ -56,9 +56,8 @@ namespace Pizzeria.Web.Controllers
         {
             var orderModel = _mapper.Map<Order>(createDto);
             _service.AddOrder(orderModel);
-
-            //TODO на случай если нужно вернуть полный обьект
-            //orderModel = _service.GetorderById(orderModel.Id);
+            
+            orderModel = _service.GetOrderById(orderModel.Id);
 
             var orderReadDto = _mapper.Map<OrderReadDto>(orderModel);
             return CreatedAtRoute(nameof(GetOrderById), new { Id = orderReadDto.Id }, orderReadDto);

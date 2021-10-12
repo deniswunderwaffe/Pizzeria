@@ -62,9 +62,8 @@ namespace Pizzeria.Web.Controllers
         {
             var foodItemModel = _mapper.Map<FoodItem>(createDto);
             _service.AddFoodItem(foodItemModel);
-
-            //TODO на случай если нужно вернуть полный обьект
-            //foodItemModel = _service.GetFoodItemById(foodItemModel.Id);
+            
+            foodItemModel = _service.GetFoodItemById(foodItemModel.Id);
 
             var foodItemReadDto = _mapper.Map<FoodItemReadDto>(foodItemModel);
             return CreatedAtRoute(nameof(GetFoodItemById), new { Id = foodItemReadDto.Id }, foodItemReadDto);
