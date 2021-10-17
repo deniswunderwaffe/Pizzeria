@@ -89,5 +89,24 @@ namespace Pizzeria.Core.Services
 
             return pagedList;
         }
+
+        public IEnumerable<FoodItem> GetRecommendedFood(RecommendationModel recommendationModel)
+        {
+            var foodItems = _repository.GetAllQueryable()
+                .Include(x => x.FoodCategory)
+                .AsNoTracking()
+                .OrderByDescending(x=>x.Price);
+            var pizzaRecommendation = foodItems.Where(x => x.FoodCategory.Name == CategoryHelper.FoodCategories.Pizza.ToString())
+                .Take(recommendationModel.PersonCount - recommendationModel.VegetarianCount);
+            var drinkRecommendation = foodItems.Where(x => x.FoodCategory.Name == CategoryHelper.FoodCategories.Drink.ToString())
+                .Take(recommendationModel.PersonCount - recommendationModel.DiabeticCount);
+            var snackRecommendation = foodItems.Where(x => x.FoodCategory.Name == CategoryHelper.FoodCategories.Snack.ToString())
+                .Take(recommendationModel.PersonCount - recommendationModel.VegetarianCount);
+
+            var recommendation = pizzaRecommendation
+                .Concat(drinkRecommendation)
+                .Concat(snackRecommendation);
+            return recommendation;
+        }
     }
 }

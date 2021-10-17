@@ -19,5 +19,7 @@ namespace Pizzeria.Core.Interfaces
         IEnumerable<FoodItem> GetAllFoodItemsByCategory(CategoryHelper.FoodCategories category);
 
         PagedList<FoodItem> GetAllFoodPaged(FoodItemParameters parameters);
+        IEnumerable<FoodItem> GetRecommendedFood(RecommendationModel recommendationModel);
+
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Pizzeria.Core.Dtos.FoodItemDtos;
+using Pizzeria.Core.HelperClasses;
 using Pizzeria.Core.HelperClasses.Paging;
 using Pizzeria.Core.Interfaces;
 using Pizzeria.Core.Models;
@@ -39,6 +40,16 @@ namespace Pizzeria.Web.Controllers
                 allFood.HasPrevious
             };
             Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(allFoodReadDto);
+        }
+        
+        [HttpPost]
+        [Route("recommendation")]
+        public ActionResult<IEnumerable<FoodItemReadDto>> GetRecommendedFood(RecommendationModel recommendationModel)
+        {
+            var allFood = _service.GetRecommendedFood(recommendationModel);
+            var allFoodReadDto = _mapper.Map<IEnumerable<FoodItemReadDto>>(allFood);
+            
             return Ok(allFoodReadDto);
         }
 
